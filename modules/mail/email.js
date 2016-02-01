@@ -22,7 +22,9 @@ function Email() {
 
 Email.prototype = {
 
-  send: function (to, subject, body, attachments) {
+  send: function(to, subject, body, attachments) {
+
+
     var mailOptions = {
       from: config.email.user,
       to: to,
@@ -33,8 +35,8 @@ Email.prototype = {
     }
 
     var _smtpTransport = this.smtpTransport;
-    return new Promise(function (resolve, reject) {
-      _smtpTransport.sendMail(mailOptions, function (error, response) {
+    return new Promise(function(resolve, reject) {
+      _smtpTransport.sendMail(mailOptions, function(error, response) {
         var statusCode = 200;
 
         _smtpTransport.close();

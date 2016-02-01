@@ -8,37 +8,38 @@ var emailSender = require('../../modules/mail/email');
 
 var pistas = {
   // get pista by id
-  get: function (req, res) {
+  get: function(req, res) {
     var resourceFile = req.params.id;
 
-    resourceLoader.file(resourceFile + '.html', 'clue').then(function (data) {
+    resourceLoader.file(resourceFile + '.html', 'clue').then(function(data) {
 
       var attachments = [];
       var image = resourceFile + '.png';
-      var imagePath = resourceLoader.resourcePath(image, 'clue');
+      var imagePath = 'resources/clue/' + image;
 
       if (resourceLoader.contains(image, 'clue')) {
         console.log('image:' + imagePath);
-        attachments: [{
+
+        attachments = [{
           filename: image,
-          filePath: imagePath,
-          cid: 'unique@kreata.ee'
+          path: imagePath,
+          cid: 'image@shrlck'
         }];
       }
 
-      emailSender.send("elgrau@gmail.com", "Pista " + req.params.id, data, attachments).then(function (response) {
+      emailSender.send("elgrau@gmail.com", "Pista " + req.params.id, data, attachments).then(function(response) {
         return res.status(200).json({
           payload: {},
           message: "success"
         });
-      }).catch(function (error) {
+      }).catch(function(error) {
         console.error("Send email:" + error);
         return res.status(400).json({
           error: "cannot send email",
           message: error
         });
       });
-    }).catch(function (error) {
+    }).catch(function(error) {
       console.error("Resource file:" + error);
       return res.status(400).json({
         error: "clue not found",
