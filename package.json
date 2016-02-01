@@ -24,6 +24,6 @@
     "multer": "x",
     "jwt-simple": "x",
     "passport-parse": "x",
-    "nodemailer": "~2.1.0"
+    "nodemailer": "x"
   }
 }
