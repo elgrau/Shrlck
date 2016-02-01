@@ -15,13 +15,14 @@ var pistas = {
     resourceLoader.file(resourceFile + '.html', 'clue').then(function (data) {
 
       var attachments = [];
+      var image = resourceFile + '.png';
 
-      if (resourceLoader.contains(resourceFile + '.png', 'clue')) {
+      if (resourceLoader.contains(image, 'clue')) {
         console.log('adds attachment');
         attachments: [{
-          filename: resourceFile + '.png',
+          filename: image,
           filePath: resourcesPath,
-          cid: resourceFile + "@shrlck.ee"
+          cid: 'unique@kreata.ee'
         }];
       }
 
