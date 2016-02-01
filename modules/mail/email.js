@@ -26,9 +26,9 @@ Email.prototype = {
     var mailOptions = {
       from: config.email.user,
       to: to,
-      subject: "Hello",
+      subject: subject,
       generateTextFromHTML: true,
-      html: "<b>Hello world</b>"
+      html: body
     };
 
     var _smtpTransport = this.smtpTransport;

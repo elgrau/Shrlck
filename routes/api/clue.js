@@ -13,7 +13,7 @@ var pistas = {
 
     resourceLoader.file(resourceFile, 'clue').then(function (data) {
 
-      emailSender.send("elgrau@gmail.com", "kk").then(function (response) {
+      emailSender.send("elgrau@gmail.com", "Pista " + req.params.id, data).then(function (response) {
         return res.status(200).json({
           payload: {},
           message: "success"
