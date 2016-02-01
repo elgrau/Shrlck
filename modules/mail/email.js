@@ -4,7 +4,7 @@ var nodemailer = require("nodemailer");
 var config = require('../../config');
 
 function Email() {
-  this.smtpTransport = nodemailer.createTransport("SMTP", {
+  this.smtpTransport = nodemailer.createTransport({
     service: config.email.service,
     secureConnection: false,
     auth: {
