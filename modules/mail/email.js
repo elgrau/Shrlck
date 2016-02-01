@@ -22,13 +22,14 @@ function Email() {
 
 Email.prototype = {
 
-  send: function (to, subject, body) {
+  send: function (to, subject, body, attachments) {
     var mailOptions = {
       from: config.email.user,
       to: to,
       subject: subject,
       generateTextFromHTML: true,
-      html: body
+      html: body,
+      attachments
     };
 
     var _smtpTransport = this.smtpTransport;

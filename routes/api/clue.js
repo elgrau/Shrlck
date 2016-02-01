@@ -9,11 +9,22 @@ var emailSender = require('../../modules/mail/email');
 var pistas = {
   // get pista by id
   get: function (req, res) {
-    var resourceFile = req.params.id + '.html';
+    var resourceFile = req.params.id;
+    var resourcesPath = resourceLoader.resourcesPath();
 
-    resourceLoader.file(resourceFile, 'clue').then(function (data) {
+    resourceLoader.file(resourceFile + '.html', 'clue').then(function (data) {
 
-      emailSender.send("elgrau@gmail.com", "Pista " + req.params.id, data).then(function (response) {
+      var attachments = [];
+
+      if (resourceLoader.contains(resourceFile + '.png', 'clue')) {
+        attachments: [{
+          filename: resourceFile + '.png',
+          filePath: resourcesPath,
+          cid: resourceFile + "@shrlck.ee"
+        }]
+      }
+
+      emailSender.send("elgrau@gmail.com", "Pista " + req.params.id, data, attachments).then(function (response) {
         return res.status(200).json({
           payload: {},
           message: "success"

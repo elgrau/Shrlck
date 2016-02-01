@@ -48,6 +48,10 @@ ResourceLoader.prototype = {
     });
   },
 
+  resourcesPath: function () {
+    return resourcesPath;
+  },
+
   resourcePath: function (name, type) {
     var resourceFile = resourcesPath;
 
@@ -61,7 +65,6 @@ ResourceLoader.prototype = {
   contains: function (name, type) {
     return fs.existsSync(this.resourcePath(name, type));
   }
-
 }
 
 // Default instance
