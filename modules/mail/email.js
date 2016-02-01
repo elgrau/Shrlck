@@ -1,6 +1,7 @@
 'use strict';
 
 var nodemailer = require("nodemailer");
+var xoauth2 = require('xoauth2');
 var config = require('../../config');
 
 function Email() {
@@ -8,14 +9,13 @@ function Email() {
     service: config.email.service,
     secureConnection: false,
     auth: {
-      XOAuth2: {
+      xoauth2: xoauth2.createXOAuth2Generator({
         user: config.email.user,
         clientId: config.email.clientId,
         clientSecret: config.email.clientSecret,
         refreshToken: config.email.refreshToken,
-        accessToken: config.email.accessToken,
-        timeout: config.email.timeout
-      }
+        accessToken: config.email.accessToken
+      })
     }
   });
 }

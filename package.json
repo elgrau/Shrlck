@@ -7,23 +7,24 @@
     "install": "node bootstrap"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
-    "debug": "~0.7.4",
-    "stylus": "0.42.3",
-    "passport": "~0.2.0",
-    "express-session": "~1.0.3",
     "connect-flash": "~0.1.1",
-    "lodash": "^3.9.3",
-    "parse": "x",
-    "moment": "x",
-    "underscore": "x",
-    "multer": "x",
+    "cookie-parser": "~1.0.1",
+    "debug": "~0.7.4",
+    "express": "~4.0.0",
+    "express-session": "~1.0.3",
     "jwt-simple": "x",
+    "lodash": "^3.9.3",
+    "moment": "x",
+    "morgan": "~1.0.0",
+    "multer": "x",
+    "nodemailer": "x",
+    "parse": "x",
+    "passport": "~0.2.0",
     "passport-parse": "x",
-    "nodemailer": "x"
+    "static-favicon": "~1.0.0",
+    "stylus": "0.42.3",
+    "underscore": "x",
+    "xoauth2": "^1.1.0"
   }
 }
