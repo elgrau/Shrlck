@@ -48,10 +48,6 @@ ResourceLoader.prototype = {
     });
   },
 
-  resourcesPath: function () {
-    return resourcesPath;
-  },
-
   resourcePath: function (name, type) {
     var resourceFile = resourcesPath;
 
