@@ -1,0 +1,37 @@
+<%
+var title = (typeof(Title) !== "undefined" && !_.isNull(Title))? Title : '';
+var name = (typeof(Name) !== "undefined" && !_.isNull(Name))? Name : '';
+var identifier = (typeof(Identifier) !== "undefined" && !_.isNull(Identifier))? Identifier : '';
+var buttons = (typeof(Buttons) !== "undefined" && !_.isNull(Buttons))? Buttons : '';
+var content = (typeof(Content) !== "undefined" && !_.isNull(Content))? Content : '';
+var dossierType = (typeof(DossierType) !== "undefined" && !_.isNull(DossierType)) ? DossierType.toLowerCase() + 'color' : '';
+var iconColour = (typeof(NegativeColour) !== "undefined" && !_.isNull(NegativeColour) && NegativeColour) ? 'icon-white' : '';
+var textColour = (typeof(NegativeColour) !== "undefined" && !_.isNull(NegativeColour) && NegativeColour) ? 'style="color:#fff"' : '';
+var statusModal = (typeof(StatusModal) !== "undefined" && !_.isNull(StatusModal) ) ? StatusModal : 'normal';
+
+%>
+<div class="draggableContainer" >
+<div rel="<%=name%>" id="<%=identifier%>" class="modal draggableModal " status="<%=statusModal%>">
+    <div class="modal-header <%=dossierType%>">
+        <div class="button-group pull-right modal-utils">
+            <a title="Minimize" href="#" action="minimizeDraggable" alt="Minimize"><i class="fa fa-minus" "<%=iconColour%>"></i></a>
+            <a title="Maximize" href="#" action="maximizeDraggable" alt="Maximize"><i class="fa fa-square" "<%=iconColour%>"></i></a>
+            <a title="Fold" href="#" action="foldDraggable" alt="Fold"><i class="fa fa-caret-down" "<%=iconColour%>"></i></a>
+            <a title="Close" href="#" rel="btnClose"><i class="fa fa-times" "<%=iconColour%>" alt="Close Modal" title="Close"></i></a>
+        </div>
+        <div>
+         <h3 <%=textColour%> ><%=title%></h3>
+        </div>
+    </div>
+    <div class="modal-body"><%=content%></div>
+    <%if (typeof(Footer) === "undefined" || Footer === null || typeof(Footer) !== "undefined"  && Footer) { %>
+   	<div class="modal-footer">
+        <%=buttons%>
+        <button title="close" type="button" class="btn" rel="btnClose">Close</button>
+    </div>
+    <% } %>
+    <div class="row-fluid">
+        <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se pull-right" style="margin-top:10px;z-index: 1000;">
+        </div>
+    </div>
+</div>

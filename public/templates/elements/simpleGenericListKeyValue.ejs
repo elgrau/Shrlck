@@ -1,0 +1,6 @@
+<dl class="dl-horizontal dl-divided">
+    <% _.each(dataToShow, function(o){ %>
+        <dt title="<%-o.label%>" data-toggle="tooltip"><%=o.label%>: </dt>
+        <dd><div><%=o.value%></div></dd>
+    <% }); %>
+</dl>

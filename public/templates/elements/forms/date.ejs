@@ -1,0 +1,22 @@
+<% /* template for date.js */ %>
+<div class="control-group">
+    <label class="control-label" for="<%=obj.name%>"><%=obj.label%>
+    <%if(obj.required){%>
+    <span class="red-asterisk">*</span>
+    <%}%>
+    </label>
+    <div class="controls">
+    <input name="<%=obj.name%>" id="<%=obj.id%>"
+    class="datepicker"
+    type="text"
+    data-date-format="dd/mm/yyyy"
+    value="<%=DateUtils.format(obj.value)%>"
+    placeholder="<%=obj.placeholder%>"
+    <%if(obj.required){%> required="required" <%}%>
+    <%if(obj.readonly){%> readonly="readonly" <%}%>
+    <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+    <%if(obj.validation){%> data-validation="<%=obj.validation%>" <%}%>
+    >
+    <span class="add-on"><i class="icon-calendar"></i></span>
+    </div>
+ </div>

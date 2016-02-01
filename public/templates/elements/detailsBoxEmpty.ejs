@@ -1,0 +1,9 @@
+	<%  
+        if(typeof(data.title) == "undefined") data.title = "";
+        if(typeof(data.prerel) != "undefined" && data.prerel && data.prerel!="" )
+            data.rel = data.prerel+"_"+data.title;
+        else
+            data.rel = data.title;
+    %>
+<section class='detailsBox hidden' rel='<%=data.rel%>'>
+</section>

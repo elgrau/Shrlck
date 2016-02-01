@@ -1,0 +1,38 @@
+<% if( typeof(content) == "undefined" || !content){
+	var content = "";
+}
+if( typeof(id) == "undefined" || !id){
+	var id = "bootstrapmodal";
+}
+if( typeof(container) == "undefined" || !container){
+    var container = "";
+}else{
+    var container = "container";
+}
+
+if( typeof(onCloseAction) == "undefined" || !onCloseAction){
+    var protection = "";
+    var onclosebutton = 'data-dismiss="modal"'
+}else{
+    var protection = 'data-backdrop="static" data-keyboard="false"';
+    var onclosebutton = 'action="'+onCloseAction+'"';
+}
+%><div id="<%= id %>" class="modal hide fade <%= container %> <%= classes %>" <%= protection %> dialog="true" role="dialog" >
+<% if(typeof(showHeader) == "undefined" || showHeader === true){ %>
+    <div class="modal-header">
+    <button title="Close" type="button" class="close" <%= onclosebutton %> >×</button>
+    <% if( !_.isUndefined(title) && title){%>
+    <h3 id="myModalLabel"><%= title %></h3>
+    <% } %>
+    </div>
+<% } %>
+<div class="modal-body">
+<%= content %>
+</div>
+
+<% if(typeof(buttons) != "undefined" && buttons && buttons != false){ %>
+    <div class="modal-footer">
+    <%= buttons %>
+    </div>
+<% } %>
+</div>

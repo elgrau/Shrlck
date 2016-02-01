@@ -1,0 +1,24 @@
+<% /* template for input.js */ %>
+<div class="control-group">
+    <label class="control-label" for="<%=obj.name%>"><%=obj.label%>
+    <%if(obj.required){%>
+    <span class="red-asterisk">*</span>
+    <%}%>
+    </label>
+    <div class="controls">
+
+    <input name="<%=obj.name%>" id="<%=obj.id%>"
+    type="<%=obj.type%>"
+    value="<%-obj.value%>"
+    autocomplete="off"
+    placeholder="<%=obj.placeholder%>"
+    class="<%=obj.classes%>"
+    <%if(obj.required){%> required="required" <%}%>
+    <%if(obj.readonly){%> readonly="readonly" <%}%>
+    <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+    <%if(obj.validation){%> data-validation="<%=obj.validation%>" <%}%>
+    <%if(obj.maxlength){%> maxlength="<%=obj.maxlength%>" <%}%>
+    >
+    <span class="floatLeft">&nbsp;<%=obj.postlabel%></span>
+    </div>
+ </div>

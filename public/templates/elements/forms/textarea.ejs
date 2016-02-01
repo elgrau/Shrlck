@@ -1,0 +1,21 @@
+<% /* template for textarea.js */ %>
+<div class="control-group">
+    <label class="control-label" for="<%=obj.name%>"><%=obj.label%>
+    <%if(obj.required){%>
+    <span class="red-asterisk">*</span>
+    <%}%>
+    </label>
+    <div class="controls">
+
+    <textarea name="<%=obj.name%>" id="<%=obj.id%>"
+    autocomplete="off"
+    placeholder="<%=obj.placeholder%>"
+    <%if(obj.required){%> required="required" <%}%>
+    <%if(obj.readonly){%> readonly="readonly" <%}%>
+    <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+    <%if(obj.validation){%> data-validation="<%=obj.validation%>" <%}%>
+    <%if(obj.maxlength){%> maxlength="<%=obj.maxlength%>" <%}%>
+    ><%-obj.value%></textarea>
+
+    </div>
+ </div>

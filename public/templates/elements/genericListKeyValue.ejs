@@ -1,0 +1,31 @@
+<% if(_.isArray(data.keyValueData) && data.keyValueData.length <=3){
+    var span = 12/data.keyValueData.length; %>
+    <section class="row-fluid">
+        <% _.each(data.keyValueData, function(block){ %>
+            <article class="span<%=span%>">
+                <% if(typeof(block.title) != "undefined" && block.title) { %>
+                    <h5><%= block.title %></h5>
+                <% } %>
+                <dl class="dl-horizontal dl-divided">
+                    <% _.each(block.data, function(o, key){
+                        if (!_.isUndefined(o.canBeHidden) && o.canBeHidden===true) {
+                            var hideClass ='';
+                            if (!_.isUndefined(o.hide) && o.hide===true){
+                                hideClass = 'hide';
+                            }%>
+                            <div class="canBeHidden<%-o.id%> <%= hideClass %>">
+                                <dt title="<%-o.label%>" data-toggle="tooltip"><%=o.label%>: </dt>
+                                <dd modelid="<%=o.id%>"><div><%=o.value%></div></dd>
+                            </div>
+                        <% } else { %>
+                            <dt title="<%-o.label%>" data-toggle="tooltip"><%=o.label%>: </dt>
+                            <dd modelid="<%=o.id%>"><div><%=o.value%></div></dd>
+                    <% }
+                     }); %>
+                </dl>
+            </article>
+        <% }); %>
+    </section>
+<% }else{ %>
+<p>So many columns to show</p>
+<% } %>

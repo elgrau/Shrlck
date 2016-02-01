@@ -1,0 +1,24 @@
+<% if(_.isArray(data.keyValueDataFull)){ %>
+	<section class="row-fluid">
+		<% _.each(data.keyValueDataFull, function(block){ %>
+			<article class="span12">
+				<% if(typeof(block.title) != "undefined" && block.title) { %>
+					<h5><%= block.title %></h5>
+				<% } %>
+				<% 	var classes = "dl-horizontal";
+					_.each(block.data, function(o, key){ 
+						if(o.label && o.label.length > 40 && !(/divided/i.test(classes)))
+							classes += " dl-divided";
+                	}); %>
+				<dl class="<%= classes %>">
+					<% _.each(block.data, function(o, key){ %>
+						<dt title="<%-o.label%>" data-toggle="tooltip"><%=o.label%></dt>
+	                	<dd modelid="<%=o.id%>"><div><%=o.value%></div></dd>
+                	<% }); %>
+				</dl>	
+			</article>
+		<% }); %>
+	</section>
+<% }else{ %>
+<p>So many columns to show</p>
+<% } %>

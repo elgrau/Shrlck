@@ -1,0 +1,22 @@
+<% if(_.isArray(data.tabs) && data.tabs.length >= 1){ 
+    var blockids = [];    
+%>
+	<div style="position:relative" class="tab">
+	<section class="generic-tabs">
+		<ul class="nav nav-tabs tabs">
+			<% _.each(data.tabs, function(block,i){ 
+				blockids[i]  = uniqid("tab-");
+			%>
+		    	<li <% if(i == 0) { %>class="active" <% } %> ><a href="#<%= blockids[i] %>" data-toggle="tab" rel="<%- block.title %>"><%=block.title%></a></li>
+		    <% }) %>
+		</ul>
+		<div class="tab-content with-style">
+			<% _.each(data.tabs, function(block,i) { %>
+		    	<article class="tab-pane <% if(i == 0) { %>active <% } %>" id="<%= blockids[i] %>" <% if (!_.isUndefined(data.rel)) { %> rel="<%= data.rel %><%=block.title%>" <% } %> ><%=block.data%></article>
+		    <% }) %>
+		</div>
+	</section>
+	</div>
+<% } else { %>
+<div style="position:relative" class="tab"><p style="border: 1px dashed gray;padding: 10px;">No tabs to show</p></div>
+<% } %>

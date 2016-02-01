@@ -1,0 +1,35 @@
+<ul>
+    <% var i = 0; _.each(context, function(parent, index) { %>
+    <li>
+        <span class="dossierTitle <%= parent.type.toLowerCase() %>color"><input type="checkbox"
+        <% var ps; %>
+        <% if ( !_.isUndefined(ps = _.find(options.selected, function(elem) { return elem.key === this.key; }, parent)) ) { %>
+        checked="checked"
+        <% } %> value="<%= parent.key %>" dossierId="<%= parent.id %>" dossierType="<%= parent.type %>"/> <%= parent.title %>
+        <button title="<%= literals.edition.globalEditionTitle %>" action="globaledit" rel="<%= parent.key %>"  class="btn btn-mini hidden" style="display:none;"><i class="fa fa-pencil"></i></button></span>
+        <% if ( options.startCollapsed == true || (i != 0 && options.startCollapsed == "notfirst") ) { %>
+        	<ul style="display: none;">
+        <% } else { %>
+        	<ul>
+        <% } %>
+            <% _.each(parent.values, function(child, ilndex) { %>
+            <li style="position:relative">
+                <span><i class="editing pull-right fa fa-pencil" style="color: rgb(6, 106, 255); position: absolute; right: 5px; top: 8px; display: none;"></i>
+                <input type="checkbox"
+                <% if (!_.isUndefined(this) && !_.isUndefined(this.values) && !_.isUndefined(_.find(this.values, function(elem) { return elem.key === this.key; }, child)) && !child.hidden) { %>
+                checked="checked"
+                <% } %> value="<%= parent.key %>_<%= child.key %>" dossierId="<%= parent.id %>" dossierType="<%= parent.type %>" section="<%= child.key %>"/> <%= child.title %></span>
+            </li>
+            <% }, ps); %>
+            <li style="position:relative" class="fixed">
+                <div class="repositoryLink" dossierId="<%= parent.id %>" dossierType="<%= parent.type %>" rel="repositoryDossier"><div class="logoRepository">&nbsp;</div><div><%= literals.documentRepository.openInRepository %></div></div>
+            </li>
+
+        </ul>
+    </li>
+    <% i++; }); %>
+
+</ul>
+<div class="metadossier">
+</div>
+

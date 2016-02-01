@@ -1,0 +1,237 @@
+// MIXINS
+.linkTable (@a) {
+    color: contrast(@a);
+}
+.linksBaseColour(@base) {
+    body {
+    }
+    button, a.btn {
+        text-decoration: none;
+        color: #fff;
+    }
+    a {
+        text-decoration: underline;
+        .linkTable(@base);
+        i[class*="icon-"] {
+            text-decoration: none;
+        }
+    }
+    table a {
+        text-decoration: underline;
+        .linkTable(@base);
+        i[class^="icon-"] {
+            text-decoration: none;
+        }
+    }
+    .generic-tabs > ul > li{
+        &:not(.active) a{
+            background: white;
+        }
+        > a {
+            text-decoration: none;
+        }
+    }
+}
+.commonColorRule (@base) {
+    td {
+        background-color: @base !important;
+    }
+    &:hover td {
+        background-color: darken(@base, 15%) !important;
+    }
+    header& {
+        background-color: darken(@base, 5%);
+    }
+    span& {
+        background-color: lighten(@base, 8%) !important;
+    }
+    article.detailsBoxBody {
+        .box, .box.light {
+            header {
+                background-color: #000 !important;
+            }
+        }
+    }
+}
+//Table CSS
+.tableColours(@backgroundColor, @base, @title, @rows:#eee) {
+    @baseHeader: darken(@base, 15%);
+    @baseHeaderText: lighten(@base, 80%);
+    @tableFooter: lighten(@base, 5%);
+    @tableFooterText: lighten(@base, 80%);
+    @baseTitle: @title;
+    @tableTop: lighten(@baseHeader, 15%);
+    table.ohim-table {
+        border: 1px solid darken(@backgroundColor, 10%);
+        border-collapse: separate;
+        background-color: @backgroundColor;
+        thead {
+            th {
+                background-color: @baseTitle;
+                color: #fff;
+                text-shadow: none;
+            }
+            th:hover {
+                background-color: lighten(@baseTitle, 5%);
+                color: #fff;
+                text-shadow: none;
+            }
+        }
+        th.disabled:hover, th.disabled:active {
+            -moz-transition: background-color 0.1s linear 0s;
+            background-color: #f9f9f9;
+            background-image: none;
+            border-color: #cccccc;
+            box-shadow: 0 2px 0 #ffffff inset, 0 -2px 0 #e8e8e8 inset, 0 1px 1px rgba(0, 0, 0, 0.15);
+            box-shadow: none;
+            color: #333333;
+            text-shadow: 0 1px 1px #ffffff;
+            text-shadow: none;
+        }
+        th {
+            background-color: #f9f9f9;
+            color: #333333;
+            border-left: 1px solid #cccccc;
+            border-bottom: 1px solid @title;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            text-shadow: 0 1px 1px #ffffff;
+        }
+        th:hover {
+            -moz-transition: background-color 0.1s linear 0s;
+            background-color: #ececec;
+            border-color: #cccccc;
+            text-decoration: none;
+        }
+        th:active {
+            background-color: #e0e0e0;
+            background-image: none;
+            border-color: #b2b2b2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) inset, 0 0 0 #ffffff, 0 1px 0 rgba(255, 255, 255, 0.6);
+            text-shadow: 0 1px 1px #ffffff;
+            outline: 0 none;
+        }
+        th.active {
+            background-color: #0d486f;
+            background-image: none;
+            border-color: #173054;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25) inset, 0 0 0 #ffffff, 0 1px 0 rgba(255, 255, 255, 0.6);
+            outline: 0 none;
+            text-shadow: 0 1px 1px #000000;
+            color: #ffffff;
+        }
+        th.disabled {
+            background-color: #f9f9f9;
+            -moz-transition: background-color 0.1s linear 0s;
+            background-image: none;
+            border-color: #cccccc;
+            box-shadow: none;
+            color: #333333;
+            text-shadow: none;
+        }
+        th[disabled] {
+            background-color: #f9f9f9;
+        }
+        th.disabled:visited {
+            -moz-transition: background-color 0.1s linear 0s;
+            background-color: #f9f9f9;
+            background-image: none;
+            border-color: #cccccc;
+            box-shadow: 0 2px 0 #ffffff inset, 0 -2px 0 #e8e8e8 inset, 0 1px 1px rgba(0, 0, 0, 0.15);
+            color: #333333;
+            text-shadow: 0 1px 1px #ffffff;
+        }
+        td {
+            border-top: 1px solid #eeeeee;
+            border-left: 0 none;
+        }
+        tbody {
+            tr.active:hover:nth-child(2n + 1) td, tr.active:hover:nth-child(2n) td {
+                background-color: #25577b;
+                border-top-color: #164d73;
+                box-shadow: 0 2px 0 #356283 inset, 0 -2px 0 #164d73 inset;
+                color: #ffffff;
+            }
+            + tbody {
+                border-top: 2px solid #cccccc;
+            }
+            tr, tr.odd {
+                td, th {
+                    background-color: darken(@rows, 5%);
+                }
+            }
+            tr.even {
+                td, th {
+                    background-color: lighten(@rows, 5%);
+                }
+            }
+            tr {
+                td, th {
+                    border-top-color: lighten(@rows, 10%);
+                    border-bottom-color: darken(@rows, 15%);
+                }
+            }
+            tr:hover, tr.even:hover, tr.odd:hover {
+                td, th {
+                    background-color: darken(@rows, 20%);
+                }
+            }
+            td.info_row table tr td, td.info_row table tr th {
+                background-color: lighten(@rows, 10%);
+            }
+            tr.active td {
+                background-color: #25577b;
+                border-top-color: #164d73;
+                box-shadow: 0 2px 0 #356283 inset, 0 -2px 0 #164d73 inset;
+                color: #ffffff;
+            }
+            tr.detail {
+                td {
+                    background: none repeat scroll 0 0 #eeeeee;
+                    border-bottom: 1px solid #cccccc;
+                }
+            }
+            tr.detail:first-child {
+                border-top: medium none;
+            }
+        }
+    }
+    .datatables-top {
+        background-color: @tableTop;
+        .linkTable (@baseHeader);
+        a {
+            .linkTable (@baseHeader);
+        }
+        .pagination ul > li > a:hover, .pagination ul > li > a:focus, .pagination ul > .active > a, .pagination ul > .active > span {
+            color: #272822;
+        }
+        .pagination ul > li:not(.active) > a:hover > span.points, .pagination ul > li:not(.active) > a:focus > span.points {
+            font-weight: normal;
+        }
+    }
+    .datatables-bottom {
+        background-color: @tableTop;
+        .linkTable (@baseHeader);
+        a {
+            .linkTable (@baseHeader);
+        }
+        .pagination ul > li > a:hover, .pagination ul > li > a:focus, .pagination ul > .active > a, .pagination ul > .active > span {
+            color: #272822;
+        }
+        .pagination ul > li:not(.active) > a:hover > span.points, .pagination ul > li:not(.active) > a:focus > span.points {
+            font-weight: normal;
+        }
+    }
+    //Contrast text link
+    .linksBaseColour(@oppocolor);
+}
+.gradientBackground(@base) {
+    @gradientA: lighten(@base, 10%);
+    @gradientB: darken(@base, 5%);
+    background: @gradientA;
+    background-image: -webkit-linear-gradient(top, @gradientA, @gradientB) !important;
+    background-image: -moz-linear-gradient(top, @gradientA, @gradientB) !important;
+    background-image: -ms-linear-gradient(top, @gradientA, @gradientB) !important;
+    background-image: -o-linear-gradient(top, @gradientA, @gradientB) !important;
+    background-image: linear-gradient(top, @gradientA, @gradientB) !important;
+    filter:progid:DXImageTransform.Microsoft.gradient( startColorStr='@{gradientA}', endColorStr='@{gradientB}', GradientType=0 ) !important; /* IE6-9 */
+}

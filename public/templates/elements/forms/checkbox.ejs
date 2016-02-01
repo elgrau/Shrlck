@@ -1,0 +1,37 @@
+<% /* template for checkbox.js */ %>
+<div class="control-group <%=obj.class%>">
+    <%if(obj.toggle){%>
+        <label class="control-label" for="<%=obj.name%>">
+        <%if(obj.required){%>
+        <span class="red-asterisk">*</span>
+        <%}%>
+        </label>
+        <div class="controls">
+        <input type="checkbox"
+        class="bootstrap-toggle <%=obj.classes%>"
+        <%if(obj.required){%> required="required" <%}%>
+        <%if(obj.readonly){%> readonly="readonly" <%}%>
+        <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+        <%if(obj.checked || obj.value){%> checked="checked" <%}%>
+        data-size="mini"
+        data-toggle="toggle"
+        name="<%=obj.name%>" id="<%=obj.id%>"
+        data-style="quick">
+        </div>
+    <%}else{%>
+        <label class="checkbox <%=obj.classes%>">
+        <input type="checkbox"
+        <%if(obj.required){%> required="required" <%}%>
+        <%if(obj.readonly){%> readonly="readonly" <%}%>
+        <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+        <%if(obj.checked || obj.value){%> checked="checked" <%}%>
+        name="<%=obj.name%>"
+        id="<%=obj.id%>"
+        >
+        <%=obj.label%>
+        <%if(obj.required){%>
+        <span class="red-asterisk">*</span>
+        <%}%>
+        </label>
+    <%}%>
+ </div>

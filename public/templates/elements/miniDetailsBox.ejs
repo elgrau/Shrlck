@@ -1,0 +1,39 @@
+<%  if( _.isUndefined(data)) data = {};
+    if( _.isUndefined(data.id)) data.id = data.title;
+    if( !_.isUndefined(data.prerel) && data.prerel && data.prerel != "" )
+        data.rel = data.prerel+"_"+data.id;
+    else
+        data.rel = data.id;
+    if( _.isUndefined(hidden) || !hidden)
+        var hidden = "";
+    else
+        hidden = "hidden";
+    if( _.isUndefined(loading) || !loading )
+        var loading = "";
+    else
+        loading = "loading";
+%>
+<section class="box light detailsBox <%=hidden%> <%=loading%>" rel='<%=data.rel%>'>
+    <header>
+        <% if( !_.isUndefined(data.editable) && data.editable) { %>
+            <button class="btn-mini btn pull-left" action="edit" type="button"><i class="fa fa-pencil"></i></button>
+        <% } %>
+        <h6 style="font-size:12px">
+            <%= data.title %>
+        </h6>
+        <a class="btn btn-mini pull-right js-toggle-section"><i class="icon-caret-up icon-small"></i></a>
+    </header>
+    <article class="box-content detailsBoxBody">
+        <% if( !_.isUndefined(data.header) && header) { %>
+        <div class="detailsBoxHeader">
+            <%= data.header %>
+        </div>
+        <% } %>
+        <div class="box-content-body"><%= body %></div>
+        <% if( !_.isUndefined(data.footer) && data.footer) { %>
+        <div class="detailsBoxFooter">
+            <%= data.footer %>
+        </div>
+        <% } %>
+    </article>
+</section>

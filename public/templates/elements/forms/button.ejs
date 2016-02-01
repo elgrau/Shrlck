@@ -1,0 +1,37 @@
+<% /* template for button.js */ %>
+<%if(obj.type!=='file'){%>
+<button title="<%=title%>" action="<%=action%>" class="btn <%=classes%>" id="<%=obj.id%>" <%if(obj.disabled){%> disabled="disabled" <%}%>><%if(icon){%><i class="<%=icon%>"></i> <%}%><%=obj.label%></button>
+<%}else{%>
+<% /* template for input.js */ %>
+<div class="control-group  <%if(obj.classescontrol){%><%=classescontrol%><%}%>">
+    <label class="control-label <%if(obj.hidelabel){%>hide<%}%>" for="<%=obj.name%>"><%=obj.label%>
+    <%if(obj.required && !obj.viewMode){%>
+    <span class="red-asterisk">*</span>
+    <%}%>
+    </label>
+    <div class="controls">
+    <%if(!obj.viewMode){%>
+        <form id="<%=obj.id%>" action="<%= url %>" method="post" enctype="multipart/form-data">
+        <label >
+        <input class="hideform" type="<%=type%>" name="<%=type%>" accept="<%=accept%>">
+        <span title="<%=title%>"
+            action="<%=action%>"
+            <%if (_.isEmpty(obj.urldownload) || _.isNull(obj.urldownload)){%>
+                    class="uploadFile btn <%=classes%>"
+            <%}else{
+            %>class="uploadFile btn <%=classes%> hide" <%
+            }%>
+            <%if(obj.disabled){%> disabled="disabled" <%}%>><%if(icon){%><i class="<%=icon%>"></i> <%}%><%=obj.label%></span>
+        </label>
+
+
+        <button class="viewFile btn btn-primary hide" urldownload ="<%=obj.urldownload%>" action="viewFile"><i class="icon-white icon-search"></i></button>
+        <button class="removeFile btn btn-primary hide" action="deleteFile"><i class="icon-white icon-trash"></i></button>
+    <%}else if (!_.isEmpty(obj.urldownload)){%>
+    <a href="<%=globals.acrisFileManagementURL%>?fileId=<%=obj.urldownload%>"><i class="icon-download"></i> <%=literals.newsDownload%></a>
+    <%}%>
+
+
+    </div>
+ </div>
+<%}%>

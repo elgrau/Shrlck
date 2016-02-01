@@ -1,0 +1,12 @@
+<% /* template for radio.js */ %>
+<div class="control-group">
+    <label class="radio">
+        <input type="radio"
+        <%if(obj.required){%> required="required" <%}%>
+        <%if(obj.readonly){%> readonly="readonly" <%}%>
+        <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+        <%if(obj.checked){%> checked="checked" <%}%>
+        name="<%=obj.name%>" id="<%=obj.id%>" value="<%=obj.value%>">
+        <%=obj.label%>
+    </label>
+ </div>

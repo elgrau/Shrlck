@@ -1,0 +1,74 @@
+<% if(_.isArray(data.tabs) && data.tabs.length >= 1){
+    var blockids = [];
+    var tabsid = uniqid('tab'); 
+%>
+    <div style="position:relative" class="tab" id="<%= tabsid %>">      
+    <div class="scrolltableft" style="height: 35px; width: 15px; position: absolute; left: -15px;"></div>
+    <div class="scrolltabright" style="height: 35px; width: 15px; position: absolute; right: -15px;"></div>
+    <section class="generic-tabs">
+        <ul class="nav nav-tabs largetabs">
+            <% _.each(data.tabs, function(block,index){ 
+                blockids[index]  = uniqid("tab-");    
+            %>
+                <li <% if(index == 0) { %>class="active" <% } %> ><a key="<%= block.key %>" href="#<%= blockids[index] %>" data-toggle="tab"><%=block.title%></a></li>
+            <% }) %>
+        </ul>
+        <div class="tab-content with-style">
+            <% _.each(data.tabs, function(block,index){ %>
+                <article class="tab-pane <% if(index == 0) { %>active <% } %>" id="<%= blockids[index] %>"><%=block.data%></article>
+            <% }) %>
+        </div>
+    </section>
+    </div>
+    <script>
+    var tab = $('#<%= tabsid %>');
+    var general_offset = tab.find(".largetabs").parent().offset().left;
+    var general_width = tab.find(".largetabs").parent().width();
+    var list = tab.find(".largetabs li");
+    var offset = $(list[list.length-1]).offset().left;
+
+    tab.find(".scrolltableft").append('<a><i class="icon-arrow-left" style="margin-top: 10px;text-decoration: none;"></i></a>');
+    tab.find(".scrolltabright").append('<a><i class="icon-arrow-right" style="margin-top: 10px;text-decoration: none;"></i></a>');
+    tab.find(".scrolltableft i").css({"opacity": "0.1"});
+    tab.find(".scrolltabright i").css({"opacity": "0.1"});
+    tab.find(".scrolltabright").hover(function(){
+        var tab = $('#<%= tabsid %>');
+        var go = tab.find(".largetabs").next().offset().left;
+        var gw = tab.find(".largetabs").next().width();
+        var o = $(tab.find(".largetabs li")[tab.find(".largetabs li").length-1]).offset().left;
+        if(o-go > gw ){
+            tab.find(".scrolltabright i").css({"opacity": "1"});
+            tab.find(".largetabs").stop().animate({left: "-="+(o-go-gw+50)+"px"},{queue:false,duration:((o-go-gw+50)*5)})
+        }else{
+            tab.find(".largetabs").stop();
+            tab.find(".scrolltabright i").css({"opacity": "0.1"});
+            tab.find(".scrolltabright i").css({"opacity": "0.1"});
+        }
+    },function(){
+        var tab = $('#<%= tabsid %>');
+        tab.find(".largetabs").stop();
+        tab.find(".scrolltableft i").css({"opacity": "0.1"});
+        tab.find(".scrolltabright i").css({"opacity": "0.1"});
+    });
+    tab.find(".scrolltableft").hover(function(){  
+        var tab = $('#<%= tabsid %>');        
+        var go = tab.find(".largetabs").next().offset().left;
+        var o = $(tab.find(".largetabs li")[0]).offset().left;
+        if(o - go < 0){
+            tab.find(".scrolltableft i").css({"opacity": "1"});
+            tab.find(".largetabs").stop().animate({left: 0+"px"},{queue:false,duration:(go-o)*5})
+        }else{
+            tab.find(".largetabs").stop();
+            tab.find(".scrolltableft i").css({"opacity": "0.1"});
+            tab.find(".scrolltableft i").css({"opacity": "0.1"});
+        }
+    },function(){
+        var tab = $('#<%= tabsid %>');
+        tab.find(".largetabs").stop();
+        tab.find(".scrolltableft i").css({"opacity": "0.1"});
+        tab.find(".scrolltabright i").css({"opacity": "0.1"});
+    });
+</script>
+<% }else{ %>
+<div style="position:relative" class="tab"><p style="border: 1px dashed gray;padding: 10px;">No tabs to show</p></div>
+<% } %>

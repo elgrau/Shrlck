@@ -1,0 +1,1100 @@
+select[modelid="BasisType"] {
+    width: 100% !important;
+}
+#lookupBox {
+    form, input, select {
+        margin: 0 5px;
+    }
+}
+.ctmcolor {
+    background-color: @ctmcolor !important;
+    .commonColorRule(@ctmcolor);
+    color: @textDark;
+}
+.oppocolor {
+    background-color: @oppocolor !important;
+    .commonColorRule(@oppocolor);
+    .linksBaseColour(@oppocolor);
+}
+.ircolor {
+    background-color: @ircolor !important;
+    .commonColorRule(@ircolor);
+    .linksBaseColour(@ircolor);
+    //.linkTable(@ircolor);
+}
+.iacolor {
+    background-color: @iacolor !important;
+    .linksBaseColour(@iacolor);
+    .commonColorRule(@iacolor);
+}
+.sdcolor {
+    background-color: @sdcolor !important;
+    .linksBaseColour(@sdcolor);
+    .commonColorRule(@sdcolor);
+}
+.cancolor {
+    background-color: @cancolor !important;
+    .commonColorRule(@cancolor);
+    .linksBaseColour(@cancolor);
+}
+.iofcolor {
+    background-color: @iofcolor !important;
+    .linksBaseColour(@iofcolor);
+    .commonColorRule(@iofcolor);
+}
+.rcdcolor {
+    background-color: @rcdcolor !important;
+    .linksBaseColour(@rcdcolor);
+    .commonColorRule(@rcdcolor);
+}
+.defaultcolor {
+    background-color: @defaultcolor !important;
+    .linksBaseColour(@defaultcolor);
+    .commonColorRule(@defaultcolor);
+}
+@rowactive: #006792;
+.select2-disabled .select2-result-label {
+    cursor: not-allowed;
+}
+.detailsBox[rel$="ContractingParties"] {
+    .detailsBoxBody {
+        overflow: visible;
+        dl {
+            dd {
+                max-height: 300px;
+                overflow: auto;
+            }
+        }
+    }
+}
+td.tasksResults {
+    margin: 0px !important;
+    padding: 3px 8px !important;
+}
+td.taskActions{
+    div.taskActions{
+        width: 120px;
+        position: relative;
+        min-height: 55px;
+        button[action="execute"]{
+            position: absolute;
+            padding: 10px 5px;
+            height: 62px;
+            margin: 0;
+            top: -1px;
+            width: 21px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .validateResults{
+            margin-left: 27px;
+            display: inline-block;
+            padding: 5px;
+            border: 1px solid rgb(168, 168, 168);
+            background-color: rgba(230, 230, 230, 0.5);
+            border-radius: 5px;
+            select{
+                min-width:50px;
+                width: 100%;
+            }
+        }
+    }
+}
+section[dossiertype] {
+    .detailsBox {
+        header {
+            h5, h6 {
+                color: @backgroundDarkColour;
+            }
+            .js-toggle-section {
+                i{color: @backgroundDarkColour;
+                }
+            }
+        }
+    }
+}
+.detailsBoxStyle(@baseColor, @multiplier:1) {
+    @backColor: lighten(@baseColor, 10%*@multiplier*@multiplier);
+    @borderColor: darken(@baseColor, 3% *@multiplier*@multiplier*@multiplier);
+    @backColorBody: lighten(@backColor, 20%*@multiplier);
+    @borderColorBody: lighten(@borderColor, 5%*@multiplier*@multiplier*@multiplier);
+    & > .detailsBox {
+        & > header {
+            background-color: darken(@backColor, 4%);
+            border-color: @borderColor;
+        }
+        & > .detailsBoxBody {
+            background-color: @backColorBody;
+            border-color: @borderColorBody;
+        }
+        & > header:hover, & > header:active {
+            background-color: darken(@backColor, 3%) !important;
+        }
+        .detailsBoxBody {
+            .box, .box.light {
+                header:not(.custom) {
+                    background-color: lighten(@backColor, 15%) !important;
+                }
+            }
+        }
+    }
+}
+#detailsPageCTM, .detailsPageCTM {
+    .detailsBoxStyle(@ctmcolor, 0.8);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @ctmcolor, 60%);
+    @color: mix(greyscale(@tableColour), @ctmcolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @ctmcolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+#detailsPageOPPO, .detailsPageOPPO {
+    .detailsBoxStyle(@oppocolor, 1);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @oppocolor, 60%);
+    @color: mix(greyscale(@tableColour), @oppocolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @oppocolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+#detailsPageIR, .detailsPageIR {
+    .detailsBoxStyle(@ircolor, 0.8);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @ircolor, 60%);
+    @color: mix(greyscale(@tableColour), @ircolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @ircolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+#detailsPageIA, .detailsPageIA {
+    .detailsBoxStyle(@iacolor, 0.9);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @iacolor, 60%);
+    @color: mix(greyscale(@tableColour), @iacolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @iacolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+#detailsPageSD, .detailsPageSD {
+    .detailsBoxStyle(@sdcolor, 0.95);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @sdcolor, 60%);
+    @color: mix(greyscale(@tableColour), @sdcolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @sdcolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+#detailsPageCAN, .detailsPageCAN {
+    .detailsBoxStyle(@cancolor, 0.95);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @cancolor, 60%);
+    @color: mix(greyscale(@tableColour), @cancolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @cancolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+#detailsPageIOF, .detailsPageIOF {
+    .detailsBoxStyle(@iofcolor, 0.95);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @iofcolor, 60%);
+    @color: mix(greyscale(@tableColour), @iofcolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @iofcolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+
+#detailsPageRCD, .detailsPageRCD {
+    .detailsBoxStyle(@rcdcolor, 0.95);
+    @bcolor: mix(greyscale(@tableBackgroundColour), @rcdcolor, 60%);
+    @color: mix(greyscale(@tableColour), @rcdcolor, 60%);
+    @tcolor: mix(greyscale(@tableTitle), @rcdcolor, 60%);
+    @tNegativeColor: contrast(@color);
+    .tableColours(@bcolor, @color, @tcolor, @bcolor);
+}
+section[id^="detailsPage"], section[class^="detailsPage"] {
+    position: relative;
+    > header {
+        left: 0;
+        margin: auto 200px auto auto;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+.tab ~ .ohim-table, .detailsBoxFooter ~ .ohim-table {
+    margin-top: 30px;
+    a {
+        text-decoration: none;
+    }
+}
+.ui-sortable-placeholder {
+    border: 5px dashed gray;
+    visibility: visible !important;
+}
+.ui-sortable-placeholder * {
+    visibility: hidden;
+}
+.row-fluid.sortable [class*="span"] {
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+.row-fluid.sortable [class*="span12"] {
+    width: 99%;
+}
+.OptionNoMemberColor {
+    background-color: rgb(238, 221, 130) !important;
+    color: #443B2B !important;
+}
+.chzn-choices .OptionNoMemberColor, .OptionNoMemberColor .highlighted {
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorStr='#f4f4f4', endColorStr='#eeeeee', GradientType=0 );
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #EDE1C2), color-stop(50%, #EAD7A6), color-stop(52%, #EAD296), color-stop(100%, #EAD9AD)) !important;
+    background-image: -webkit-linear-gradient(top, #EDE1C2 20%, #EAD7A6 50%, #EAD296 52%, #EAD9AD 100%) !important;
+    background-image: -moz-linear-gradient(top, #EDE1C2 20%, #EAD7A6 50%, #EAD296 52%, #EAD9AD 100%) !important;
+    background-image: -o-linear-gradient(top, #EDE1C2 20%, #EAD7A6 50%, #EAD296 52%, #EAD9AD 100%) !important;
+    background-image: -ms-linear-gradient(top, #EDE1C2 20%, #EAD7A6 50%, #EAD296 52%, #EAD9AD 100%) !important;
+    background-image: linear-gradient(top, #EDE1C2 20%, #EAD7A6 50%, #EAD296 52%, #EAD9AD 100%) !important;
+}
+.historyTasks {
+    margin-top: 20px;
+}
+.historyTasks *:not(h6) {
+    font-size: 12px;
+}
+.tasksresultsform {
+    min-width: 100px;
+    input[type="checkbox"] {
+        margin-right: 7px;
+    }
+    select {
+        max-width: 95px;
+    }
+}
+.personBox {
+    textarea {
+        width: 97%;
+    }
+    input[type="text"] {
+        width: 90%;
+    }
+    header {
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #F9F9F9;
+        border-color: #F2F2F2;
+        i.iconCorrespondent {
+            margin: -4px -10px 0px 0px;
+        }
+    }
+    dt {
+        div {
+            width: 16px;
+            height: 16px;
+            float: left;
+            margin: 2px 5px;
+            vertical-align: middle;
+        }
+        div.email {
+            background: url("@{imgPath}/icons/general-sprite.png") no-repeat scroll left -65px transparent;
+        }
+        div.fax {
+            background: url("@{imgPath}/icons/general-sprite.png") no-repeat scroll left -130px transparent;
+        }
+        div.tel {
+            background: url("@{imgPath}/icons/general-sprite.png") no-repeat scroll left -160px transparent;
+        }
+    }
+    .detailsBoxBody {
+        background-color: white !important;
+        border-color: #F2F2F2 !important;
+        padding-bottom: 0 !important;
+    }
+    dl {
+        margin-bottom: 0;
+    }
+    dl:not(.dl-horizontal) {
+        dd {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        dt {
+            font-weight: normal;
+        }
+    }
+}
+#bootstrapmodal_Basis {
+    .select2-container {
+        margin-bottom: 10px;
+    }
+    dd[modelid="Articles"] {
+        li.select2-search-choice {
+            div {
+                max-width: 250px;
+                .ellipsis
+            }
+        }
+    }
+}
+#bootstrapmodal_Decisions {
+    li.select2-search-choice {
+        div {
+            max-width: 250px;
+            .ellipsis
+        }
+    }
+}
+#bootstrapmodal_Annotations {
+    textarea {
+        min-height: 200px;
+    }
+}
+.modal.modalTaskExecution[rel="PEPITO"], .modal.modalTaskExecution[rel^="T_OPPO_DECISION"] {
+    .select2-container {
+        width: 300px !important;
+    }
+    li.select2-search-choice {
+        div {
+            max-width: 250px;
+            .ellipsis
+        }
+    }
+}
+.modal#aboutIPTool {
+    display: none;
+    text-align: center;
+    .logoContainer {
+        width: 200px;
+        height: 40px;
+        padding-top: 85px;
+        background: url('@{imgPath}/logo65.png') no-repeat 50% 10px transparent;
+        margin: 0 auto 10px auto;
+        .OHIM {
+            color: #1078BB;
+            font-family: 'Bank Gothic';
+            font-weight: 400;
+            font-size: 30px;
+            line-height: 30px;
+            height: 30px;
+        }
+    }
+}
+
+table.ohim-table {
+    tr.tr-edit td {
+        background-color: #F3F988 !important;
+    }
+    tr.selectedRow > td {
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAKUlEQVQIW2NkAILuzu56EA0DjCCB0vLSRmQJsCBIBbIEXBBZAkUQJgEA22wYfqsm/WoAAAAASUVORK5CYII=) repeat !important;
+        &:first-child {
+            border-left: 6px solid yellow;
+        }
+        &:last-child {
+            border-right: 4px solid yellow;
+        }
+        &:not(:first-child):not(:last-child) {
+        }
+    }
+    td.btn_actions {
+        text-align: center;
+        white-space: nowrap;
+    }
+    .input-append {
+        input[type="text"] {
+            margin: 0px;
+        }
+    }
+}
+table td.td-tasks-comments {
+    .popover {
+        //margin-left: -13px !important;
+    }
+}
+.colorpicker.dropdown-menu {
+    z-index: 1050;
+}
+.filters-color (@color:white) {
+    border-radius: 4px;
+    background-color: @color;
+    padding-bottom: 0px;
+    margin-bottom: 5px;
+    .microshadow;
+}
+.criterionRow .typeahead {
+    overflow: auto;
+    max-height: 300px;
+}
+.typeahead a {
+    text-decoration: none;
+}
+.numReallocatedTasks {
+    margin-left: 7px;
+    .new {
+        font-weight: bold;
+    }
+}
+.headerUtils {
+    .btn-group[rel="entities"] {
+        button[rel="CTM"].active {
+            background-color: @ctmcolor;
+            color: black;
+        }
+        button[rel="IA"].active {
+            background-color: @iacolor;
+        }
+        button[rel="IR"].active {
+            background-color: @ircolor;
+        }
+        button[rel="SD"].active {
+            background-color: @sdcolor;
+        }
+        button[rel="OPPO"].active {
+            background-color: @oppocolor;
+        }
+        button[rel="CAN"].active {
+            background-color: @cancolor;
+        }
+    }
+    .btn-group[rel="advanced"] {
+        button[rel="on"].active {
+            background-color: #E6FFE6;
+            color: black;
+        }
+        button[rel="off"].active {
+            background-color: #FFE8E8;
+            color: black;
+        }
+    }
+}
+.gs-first-second {
+    position: absolute;
+    border: 1px solid gray;
+    border-radius: 44px 44px 44px 44px;
+    background-color: white;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 13px;
+    padding: 0px 3px;
+    height: 13px;
+    right: 0px;
+    top: 0px;
+}
+.gs-table-list {
+    li {
+        min-height: 16px;
+        border: 1px dashed #999999;
+        border-radius: 2px 2px 2px 2px;
+        list-style-image: none;
+        margin-bottom: 10px;
+        span.numClassGS {
+            display: inline-block;
+            float: left;
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: -35px;
+            width: 42px;
+        }
+    }
+    &.clean li {
+        border: medium none;
+        padding-left: 35px;
+    }
+}
+span.tooltipAlphaList {
+    position: relative;
+    top: -4px;
+    a {
+        text-decoration: none;
+        font-size: 11px;
+        i.icon-ok {
+            color: #00DB00;
+        }
+        i.icon-remove {
+            color: #FF3333;
+        }
+    }
+    div.tooltip {
+        font-weight: normal;
+    }
+    div.tooltip-inner {
+        min-width: 560px;
+        max-width: 700px;
+    }
+}
+.gsFullView {
+    &#mainHeader {
+        .titleFullView {
+            max-width: 450px;
+            margin: 8px auto 0;
+            text-align: center;
+            h1 {
+                font-size: 23px;
+                line-height: 23px;
+                width: 100%;
+                color: #F1F1F1;
+            }
+        }
+        i {
+            color: #F1F1F1;
+        }
+        .closeFullView {
+            cursor: pointer;
+            position: absolute;
+            width: 60px;
+            height: 20px;
+            line-height: 20px;
+            color: #F1F1F1;
+            text-align: center;
+            background: rgba(0, 147, 255, 0.18);
+            border: solid 1px rgba(0, 147, 255, 0.28);
+            right: 10px;
+            top: 8px;
+        }
+        .printFullView {
+            cursor: pointer;
+            position: absolute;
+            width: 60px;
+            height: 20px;
+            line-height: 20px;
+            color: #F1F1F1;
+            text-align: center;
+            background: rgba(0, 147, 255, 0.18);
+            border: solid 1px rgba(0, 147, 255, 0.28);
+            right: 80px;
+            top: 8px;
+        }
+        .infoFullView {
+            position: absolute;
+            line-height: 28px;
+            color: #F1F1F1;
+            left: 14px;
+            top: 7px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+    }
+    &#container {
+        width: 95% !important;
+        margin-left: auto;
+        margin-right: auto;
+        > div:first-child {
+            margin-top: 15px;
+        }
+        section {
+            background-color: #FEFEFE;
+        }
+        thead {
+            th:nth-child(1), th:nth-child(3) {
+                width: 30px;
+                text-align: center;
+            }
+        }
+        tbody {
+            td.classGS {
+                text-align: center;
+                font-size: 1.1em;
+                font-weight: 600;
+            }
+            td:nth-child(2) {
+                text-align: justify;
+            }
+            td:nth-child(3) {
+                text-align: center;
+                font-size: 1.2em;
+                i.icon-ok {
+                    color: #00DB00;
+                }
+                i.icon-remove {
+                    color: #FF3333;
+                }
+            }
+        }
+        .btnShowMultilinguals {
+            cursor: pointer;
+            height: 20px;
+            line-height: 20px;
+            color: #F1F1F1;
+            text-align: right;
+            background: rgba(0, 147, 255, 0.18);
+            border: solid 1px rgba(0, 147, 255, 0.28);
+            padding: 0 10px;
+        }
+        table.multilinguals {
+        }
+    }
+}
+.ui-draggable-dragging {
+    z-index: 99999;
+}
+#temporalVersionBox {
+    background-color: #D9EDF4;
+    border: 1px solid lightgray;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 1px 1px 2px 0;
+    display: inline-block;
+    padding: 10px 30px;
+}
+//modal draggable list
+
+
+.list-draggable {
+    background-color: #136eb4;
+    color: #fff;
+}
+#detectDoubles {
+    ul.ui-sortable {
+        li:first-child {
+            background-color: #0b4069;
+        }
+    }
+}
+section.joinedOpposition, div.joinedOpposition {
+}
+.dragableList {
+    ul.ui-sortable {
+        list-style: none;
+        margin: 10px 0px 0px 0px;
+        li {
+            .list-draggable;
+            cursor: move;
+            height: 20px;
+            padding: 5px;
+            margin: 10px;
+            clear: both;
+            span {
+                cursor: row-resize;
+            }
+            ;
+            i {
+                margin-right: 5px;
+                .fa.fa-angle-up, i.fa.fa-angle-down {
+                    cursor: pointer;
+                }
+            }
+        }
+        li.ui-sortable-placeholder {
+            background-color: #fff;
+        }
+        li.ui-sortable-helper {
+            background-color: #002e54;
+        }
+    }
+    .draggableOver {
+        cursor: pointer;
+        position: absolute;
+        top: 15px;
+        width: 342px;
+        height: 80%;
+        border-radius: 6px;
+        -webkit-border-radius: 6px;
+        z-index: 2000;
+        p {
+            color: #fff;
+            position: relative;
+            top: 45%;
+            text-align: center;
+        }
+    }
+    .draggableHover {
+        background-color: #1aa1e1
+    }
+    .notDisplay {
+        display: none;
+    }
+    .draggableInactive {
+        display: inline;
+        background-color: rgba(255, 255, 255, 0.7)
+    }
+    .setCorrespondent {
+        top: -1000;
+        display: none
+    }
+}
+.boldfont > td:not(.normalfont) {
+    font-weight: bold;
+}
+#goodsServicesInfo {
+    h3 {
+        margin: 7px 40px;
+    }
+    & > article {
+        background-color: #FEFEFE;
+        border: 1px solid #CCCCCC;
+        border-radius: 10px 10px 10px 10px;
+        padding: 20px;
+    }
+}
+/* *Detect doubles* */
+#detectDoubles {
+    div.panel2 div.input-append button.btn{
+        margin-top: 0px;
+    }
+    .compareDossier {
+        border-top: 1px solid #F5F5F5;
+        padding: 2px;
+        height: 94%;
+        width: 99%;
+        overflow:hidden;
+        .panel {
+            padding: 10px;
+        }
+        .btn {
+            display: none;
+        }
+        .highlight {
+            background-color: #fffaaa !important;
+            font-variant: italic;
+        }
+        .leftComponent{
+            float:left;
+            width:50%;
+            overflow:auto;
+            height:inherit;
+        }
+        .rightComponent{
+            float:right;
+            width:50%;
+            overflow:auto;
+            height:inherit;
+        }
+        .infomsg {
+            background-color: #EFEFEF;
+            border: 1px dashed gray;
+            color: gray;
+            font-size: 1.5em;
+            margin: 50px;
+            padding: 50px;
+            text-align: center;
+        }
+        .detailsBoxBody .dataTable{
+            overflow:auto;
+        }
+    }
+}
+td.ClassificationKindCode {
+    font-size: 16px;
+    font-weight: 800;
+    text-align: center;
+}
+select[modelid="DateOfEffect"] {
+    width: 100%;
+}
+.oldGoodsServices {
+    margin: 10px;
+    padding: 10px;
+    border: 1px dashed gray;
+    background-color: #eee;
+    max-height: 200px;
+    overflow: auto;
+    white-space: pre-line;
+    textarea {
+        width: 99%;
+        min-height: 100px;
+        margin: 0;
+    }
+}
+table[modelid="Basis"] {
+    tr.odd, tr.even {
+        td {
+            position: relative;
+            z-index: 5;
+            background-color: white;
+        }
+    }
+    .info_row {
+        .basis_info_row {
+            margin: 0px 10px 2px 10px;
+            border: 1px solid #bbc9ce;
+            background-color: #fefefe;
+            border-radius: 0px 0px 25px 25px;
+            min-height: 20px;
+            dl {
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+section.joinedOpposition, div.joinedOpposition {
+    .dragableList {
+        float: left;
+        margin: 0px 15px 0px 0px;
+        width: 45%;
+        #JoinedOppositions {
+            li {
+                background-color: #0b4069;
+            }
+        }
+    }
+    .list-sortable {
+        min-height: 80px;
+    }
+    .infomsg {
+        background-color: #EFEFEF;
+        border: 1px dashed gray;
+        color: gray;
+        font-size: 14px;
+        margin: 10px 0px 0px 0px;
+        padding: 5px;
+        text-align: center;
+        p.infoText {
+            font-weight: bolder;
+            margin: 20px auto;
+        }
+    }
+    .linkedOppositions {
+        margin: 15px 0px 0px 0px;
+    }
+}
+
+/* *** GETDATA TASKS STYLE ***** */
+.getDataTaskExecution {
+    .group {
+        .group {
+            margin-left: 100px;
+        }
+        > div {
+            display: inline-block;
+            &:not(:empty) {
+                text-align: right;
+                width: 200px;
+                & ~ .groupContent {
+                    margin-left: 20px;
+                    display: inline-block;
+                }
+            }
+        }
+        label {
+            display: inline-block;
+            &:not(:empty) {
+                &:not(.radio):not(.checkbox) {
+                    text-align: right;
+                    width: 200px;
+                }
+                &.radio, &.checkbox {
+                    margin-right: 20px;
+                }
+            }
+            ~ input, ~ select, ~ textarea {
+                margin-left: 20px;
+            }
+        }
+        span ~ span {
+            margin-left: 10px;
+        }
+    }
+}
+#fastTrackSelector {
+    padding: 0px 0px 5px 0px;
+    a {
+        color: #e7edf0;
+        text-decoration: underline;
+        font-size: 10px;
+    }
+    .ftContent {
+        padding: 8px 0px 0px 32px;
+        .ftLabelToggle {
+            width: 100px;
+        }
+    }
+    .ftLabelToggle {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    label {
+        background: url('@{imgPath}/sprite-test-3.png') -40px 0px  no-repeat;
+        border-radius: 8px;
+        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+        display: block;
+        position: relative;
+        text-indent: 100%;
+        width: 65px;
+        height: 20px;
+        -webkit-transition: background-position .3s ease;
+        -moz-transition: background-position .3s ease;
+        cursor: pointer;
+        font-size: .01em;
+        float: left;
+        margin: 0px 0px 0px 0px;
+        span {
+            border: 0px solid transparent;
+            border-radius: 8px;
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 28px;
+            height: 20px;
+            -webkit-transition: left .3s ease;
+            -moz-transition: left .3s ease;
+        }
+    }
+    input[type=checkbox] {
+        display: none;
+    }
+    input[type=checkbox]:checked + label {
+        background-position: 0 0;
+    }
+    input[type=checkbox]:checked + label span {
+        left: 40px;
+    }
+}
+#toggleSelector {
+    padding: 0px 0px 5px 0px;
+    a {
+        color: #e7edf0;
+        text-decoration: underline;
+        font-size: 10px;
+    }
+    .tgContent {
+        padding: 8px 0px 0px 32px;
+        .tgLabelToggle {
+            width: 100px;
+        }
+    }
+    .tgLabelToggle {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    label {
+        background: url('@{imgPath}/sprite-test-3.png') -40px 0px  no-repeat;
+        border-radius: 8px;
+        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+        display: block;
+        position: relative;
+        text-indent: 100%;
+        width: 65px;
+        height: 20px;
+        -webkit-transition: background-position .3s ease;
+        -moz-transition: background-position .3s ease;
+        cursor: pointer;
+        font-size: .01em;
+        float: left;
+        margin: 0px 0px 0px 0px;
+        span {
+            border: 0px solid transparent;
+            border-radius: 8px;
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 28px;
+            height: 20px;
+            -webkit-transition: left .3s ease;
+            -moz-transition: left .3s ease;
+        }
+    }
+    input[type=checkbox] {
+        display: none;
+    }
+    input[type=checkbox]:checked + label {
+        background-position: 0 0;
+    }
+    input[type=checkbox]:checked + label span {
+        left: 40px;
+    }
+}
+.loginBackground {
+    background-image: url('@{imgPath}/login-background.jpg');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+}
+.blur {
+    filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -webkit-filter: blur(4px);
+}
+.allocationCommentsOver , .commentsOver {
+    min-width: 300px;
+    .comments{
+        max-height: 180px;
+        overflow: auto;
+        margin: 5px;
+        span.date{
+            color: rgb(115, 133, 150);
+            font-size:10px
+        }
+        .username{
+            color: #666;
+        }
+    }
+    .btn-copy {
+        position: absolute;
+        top: 9px;
+        right: 17px;
+    }
+    textarea {
+        width: 85%;
+        float: left;
+    }
+    .boxbuttons {
+        float:right;
+        padding: 0;
+        margin: 0;
+        button{
+            height: 40px;
+            margin-top: 4px;
+        }
+    }
+}
+.nice-paragraph, .nice-paragraph p, .nice-paragraph span {
+    white-space: pre-line;
+}
+span.jqtree-title {
+    cursor: pointer;
+}
+.datepicker {
+    z-index: 3000 !important;
+}
+
+.validateAndClose{
+    [action="validate"]{
+        border-right: 1px dotted #78A6B6;
+        padding-right: 4px;
+    }
+    [action="validateClose"]{
+        border-left: 1px dotted #78A6B6;
+        padding-left: 4px;
+    }
+}
+
+.repositoryLink{
+    text-align: center;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: -5px;
+    .logoRepository{
+        background: url("@{imgPath}/repository_small.png") transparent center center no-repeat;
+        width: 23px;
+        cursor: pointer;
+        display: inline-block;
+    }
+    :not(.logoRepository){
+        display: inline-block;
+        margin-left:5px;
+    }
+    &:hover{
+        & > :not(.logoRepository){
+            font-weight: bold;
+        }
+    }
+}
+.repositoryMetadossier {
+    background-color: #fff;
+    &:hover {
+        background-color: #EBEBEB;
+    }
+}
+td[rel="annotation"]{
+    word-break: break-word;
+}
+.popover {
+    max-width: 500px;
+}
+
+section.detailsBox[section="Tasks"] article.detailsBoxBody{
+    overflow: visible;
+}
+
+.hideform {
+    position:absolute;
+    visibility: hidden;
+    height: 1px;
+    width: 1px;
+}

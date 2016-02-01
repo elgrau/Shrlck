@@ -1,0 +1,15 @@
+<% var identifier = "";
+if (!_.isUndefined(data.dataTable.identifier)) {
+    identifier = 'identifier="' + data.dataTable.identifier + '"';
+}
+var modelid = "";
+if (!_.isUndefined(data.dataTable.modelid)) {
+    modelid = 'modelid="'+data.dataTable.modelid+'"';
+}
+
+var tableClasses = "";
+if (!_.isUndefined(data.dataTable.tableClasses) && !_.isNull(data.dataTable.tableClasses)) {
+    tableClasses = data.dataTable.tableClasses;
+}
+%>
+<table style="width:100%" width="100%" id="<%- id %>" cellpadding="0" cellspacing="0" border="0" class="display <%=tableClasses %>" rel="<%=data.dataTable.rel%>" <%= modelid %> <%=identifier%> ></table>

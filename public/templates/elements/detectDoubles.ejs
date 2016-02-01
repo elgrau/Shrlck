@@ -1,0 +1,27 @@
+<% var titleOriginal = '<span style="color:red;font-weight:bolder">'+l.possibleErroneousDossier+': '+type+' '+id+'</span>';
+%>
+<div class="detectDoubleContainer">
+    <div class="row-fluid">
+    <header style="padding:10px" >
+        <div class="span6 panel1">
+            <h6><strong><%=titleOriginal%></strong></h6>
+        </div>
+        <div class="span6 panel2">
+            <%
+            if(typeof(titleRight) !='undefined' && !_.isNull(titleRight)) { %>
+                <h6 class="pull-right" style = "margin-right:10px;">
+                    <span style="color:red;font-weight:bolder"><%=titleRight%></span>
+                </h6>
+           <% }  %>
+        </div>
+    </header>
+</div>
+    <div class="<%=split %>-percent compareDossier">
+         <div class="leftComponent" id="first-component">
+             <div id="dossier1" class="panel flOverlay"></div>
+          </div>
+         <div class="rightContainer" id="second-component" style="float:rigth;width:50%;overflow:scroll;height:inherit">
+             <div id="dossier2" class="panel flOverlay"></div>
+          </div>
+    </div>
+</div>

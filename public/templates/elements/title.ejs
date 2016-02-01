@@ -1,0 +1,10 @@
+<%
+  _.defaults(obj,{
+    classes: 'span12',
+    label: 'ToDo',
+    element: 'h1',
+    icon: null
+  });
+%>
+<% /* used to create titles, can be used to create any html tag */ %>
+<div class="<%=obj.classes%>"><<%=element%>><%if(icon){%><i class="<%=icon%>"></i><%}%><%=obj.label%></<%=element%>></div>

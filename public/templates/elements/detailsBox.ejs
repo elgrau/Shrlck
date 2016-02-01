@@ -1,0 +1,23 @@
+<header>
+    <% if( !_.isUndefined(data.editable) && data.editable) { %>
+    <button title="Edit Section" class="btn-mini btn pull-left" action="edit" type="button"><i class="fa fa-pencil"></i> Edit</button>
+    <% } %>
+    <button title="Refresh Section" action="refresh" class="btn-mini btn pull-left" style="display:none;"><i class="fa fa-refresh"></i></button>
+    <h6>
+        <%= data.title %>
+    </h6>
+    <a title="Collapse/Expand Section" class="pull-right js-toggle-section"><i class="fa fa-angle-up icon-small"></i></a>
+</header>
+<article class="box-content detailsBoxBody">
+    <% if( !_.isUndefined(data.header) && header) { %>
+    <div class="detailsBoxHeader">
+        <%= data.header %>
+    </div>
+    <% } %>
+    <div class="box-content-body"><%= body %></div>
+    <% if( !_.isUndefined(data.footer) && data.footer) { %>
+    <div class="detailsBoxFooter">
+        <%= data.footer %>
+    </div>
+    <% } %>
+</article>

@@ -1,0 +1,30 @@
+<% /* template for select.js */ %>
+<div class="control-group">
+    <label class="control-label" for="<%=obj.name%>"><%=obj.label%>
+    <%if(obj.required){%>
+    <span class="red-asterisk">*</span>
+    <%}%>
+    </label>
+    <div class="controls">
+
+    <select name="<%=obj.name%>" id="<%=obj.id%>"
+    <%if(obj.multiple){%> multiple="multiple" size="<%=obj.size%>"<%}%>
+    <%if(obj.required){%> required="required" <%}%>
+    <%if(obj.readonly){%> readonly="readonly" <%}%>
+    <%if(obj.disabled || obj.viewMode){%> disabled="disabled" <%}%>
+    >
+    <%if (obj.multiple === false && obj.emptyOption === true){%>
+    <option value="" disabled="disabled"
+    <%if(_.isEmpty(data.value)){%>
+    selected="selected"
+    <%}%>
+    ><%=literals.pleaseSelect%></option>
+    <%}%>
+    <%_.each(obj.data,function(option){ %>
+        <option value="<%=option.key%>"><%=option.text%></option>
+    <% })%>
+    </select>
+
+        </span>
+    </div>
+ </div>

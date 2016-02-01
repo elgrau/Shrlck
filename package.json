@@ -1,0 +1,29 @@
+{
+  "name": "authenticate-me-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "install": "node bootstrap"
+  },
+  "dependencies": {
+    "express": "~4.0.0",
+    "static-favicon": "~1.0.0",
+    "morgan": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "body-parser": "~1.0.0",
+    "debug": "~0.7.4",
+    "stylus": "0.42.3",
+    "passport": "~0.2.0",
+    "express-session": "~1.0.3",
+    "connect-flash": "~0.1.1",
+    "lodash": "^3.9.3",
+    "parse": "x",
+    "moment": "x",
+    "underscore": "x",
+    "multer": "x",
+    "jwt-simple": "x",
+    "passport-parse": "x",
+    "nodemailer": "0.7.1"
+  }
+}
