@@ -10,18 +10,18 @@ var pistas = {
   // get pista by id
   get: function (req, res) {
     var resourceFile = req.params.id;
-    var resourcesPath = resourceLoader.resourcesPath();
 
     resourceLoader.file(resourceFile + '.html', 'clue').then(function (data) {
 
       var attachments = [];
       var image = resourceFile + '.png';
+      var imagePath = resourceLoader.resourcePath(image, 'clue');
 
       if (resourceLoader.contains(image, 'clue')) {
-        console.log('adds attachment');
+        console.log('image:' + imagePath);
         attachments: [{
           filename: image,
-          filePath: resourcesPath,
+          filePath: imagePath,
           cid: 'unique@kreata.ee'
         }];
       }
