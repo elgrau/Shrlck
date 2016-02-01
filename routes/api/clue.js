@@ -17,11 +17,12 @@ var pistas = {
       var attachments = [];
 
       if (resourceLoader.contains(resourceFile + '.png', 'clue')) {
+        console.log('adds attachment');
         attachments: [{
           filename: resourceFile + '.png',
           filePath: resourcesPath,
           cid: resourceFile + "@shrlck.ee"
-        }]
+        }];
       }
 
       emailSender.send("elgrau@gmail.com", "Pista " + req.params.id, data, attachments).then(function (response) {

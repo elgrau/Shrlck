@@ -29,8 +29,8 @@ Email.prototype = {
       subject: subject,
       generateTextFromHTML: true,
       html: body,
-      attachments
-    };
+      attachments: attachments
+    }
 
     var _smtpTransport = this.smtpTransport;
     return new Promise(function (resolve, reject) {
