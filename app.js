@@ -20,31 +20,31 @@ var path = require('path');
 var publicPath = path.join(applicationRoot, './public');
 
 // Strategies
-var ParseStrategy = require('passport-parse');
+//var ParseStrategy = require('passport-parse');
 
 //parse
-var parse = require('parse/node').Parse;
-parse.initialize(config.parse.appId, config.parse.jsKey, config.parse.masterKey);
+//var parse = require('parse/node').Parse;
+//parse.initialize(config.parse.appId, config.parse.jsKey, config.parse.masterKey);
 
 var app = express();
 
-var parseStrategy = new ParseStrategy({
-  parseClient: parse
-});
-
-// setting passport with the strategies
-passport.use(parseStrategy);
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
+//var parseStrategy = new ParseStrategy({
+//  parseClient: parse
+//});
+//
+//// setting passport with the strategies
+//passport.use(parseStrategy);
+//
+//passport.serializeUser(function(user, done) {
+//  done(null, user);
+//});
+//
+//passport.deserializeUser(function(obj, done) {
+//  done(null, obj);
+//});
 
 //CORS middleware
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Access-Token');
@@ -66,15 +66,29 @@ app.use(session({
   }
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 app.use(flash());
 
 app.use('/api', routes);
 app.use('/', express.static(publicPath));
 
+app.get('/ses', function (req, res, next) {
+  var sess = req.session
+  if (sess.views) {
+    sess.views++
+      res.setHeader('Content-Type', 'text/html')
+    res.write('<p>views: ' + sess.views + '</p>')
+    res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>')
+    res.end()
+  } else {
+    sess.views = 1
+    res.end('welcome to the session demo. refresh!')
+  }
+});
+
 /// catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -85,7 +99,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.json({
       'error': {
@@ -98,7 +112,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     'error': {

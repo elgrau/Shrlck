@@ -25,41 +25,48 @@ var createToken = function (user) {
 
 var auth = {
   validateToken: function (req, res, next) {
-    var token = req.params["x-access-token"] || req.query["x-access-token"] || req.headers["x-access-token"];
-
-    if (token) {
-      database.get('tokens', token).then(function (response) {
-
-        if (!response) {
-          return next();
-        }
-
-        var decoded = jwt.decode(response.identifier, config.session.secret);
-
-        console.log(decoded);
-
-        if (decoded.exp <= Date.now()) {
-          response.destroy();
-          return res.status(400).json({
-            payload: {
-              error: ''
-            },
-            message: 'Invalid Request'
-          });
-        }
-
-        database.get('users', response.user).then(function (user) {
-          req.user = user;
-          return next();
-        }).catch(function () {
-          return next();
-        });
-      }).catch(function () {
-        return next();
-      });
+    if (req.session.user) {
+      req.user = req.session.user;
+      return next();
     } else {
-      next();
+      return next();
     }
+
+    //    var token = req.params["x-access-token"] || req.query["x-access-token"] || req.headers["x-access-token"];
+    //
+    //    if (token) {
+    //      database.get('tokens', token).then(function (response) {
+    //
+    //        if (!response) {
+    //          return next();
+    //        }
+    //
+    //        var decoded = jwt.decode(response.identifier, config.session.secret);
+    //
+    //        console.log(decoded);
+    //
+    //        if (decoded.exp <= Date.now()) {
+    //          response.destroy();
+    //          return res.status(400).json({
+    //            payload: {
+    //              error: ''
+    //            },
+    //            message: 'Invalid Request'
+    //          });
+    //        }
+    //
+    //        database.get('users', response.user).then(function (user) {
+    //          req.user = user;
+    //          return next();
+    //        }).catch(function () {
+    //          return next();
+    //        });
+    //      }).catch(function () {
+    //        return next();
+    //      });
+    //    } else {
+    //      next();
+    //    }
   },
 
   me: function (req, res) {
@@ -121,49 +128,17 @@ var auth = {
       });
     }
 
-    //passport.authenticate('parse', function(err, user, info) {
-    //  if (err) {
-    //    return res.status(400).json({
-    //      payload: {
-    //        error: err
-    //      },
-    //      message: info.message
-    //    });
-    //  }
-    //
-    //  if (!user) {
-    //    return res.status(400).json({
-    //      payload: {
-    //        error: err
-    //      },
-    //      message: info.message
-    //    });
-    //  }
-    //
-    //  _authTokenRequestCb(user, req, res);
-    //
-    //})(req, res);
-
     database.findBy('users', 'email', email).then(function (user) {
       if (!_.isEmpty(user) && user.password === password) {
 
-        var tokenId = createToken(user);
-        database.save('tokens', {
-          "identifier": tokenId,
-          "user": user.identifier
-        }).then(function (token) {
-          return res.status(200).json({
-            payload: {
-              user: user,
-              token: tokenId
-            },
-            message: "Authentication successfull"
-          });
-        }).catch(function () {
-          return res.status(400).json({
-            payload: {},
-            message: "Token creation failed"
-          });
+        var session = req.session;
+        session.user = user;
+
+        return res.status(200).json({
+          payload: {
+            user: user
+          },
+          message: "Authentication successfull"
         });
       } else {
         return res.status(400).json({
@@ -175,6 +150,9 @@ var auth = {
   },
 
   logout: function (req, res) {
+    req.session.destroy(function (err) {
+      // cannot access session here
+    });
     //db.tokenRequest.delete(req.user, 'user').then(function() {
     //  db.user.Parse.User.logOut();
     //  res.json({

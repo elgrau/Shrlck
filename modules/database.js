@@ -12,20 +12,16 @@ function Database() {
 }
 
 Database.prototype = {
-  load: function() {
+  load: function () {
     this.data = {};
     this.sequence = 0;
     this.data['users'] = getTable(this, 'users');
-    this.data['tokens'] = {};
-    this.save('tokens', {
-      "identifier": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NTY3MDExMTA0Mjh9.ZnruBzQVdkgOKvB3X3luXuJtH-R2ktCzHuAWrL5AAAA",
-      "user": "1"
-    });
+    this.data['sessions'] = {};
   },
 
-  all: function(table) {
+  all: function (table) {
     var _data = this.data;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (_data[table] != undefined) {
         console.log('database.resolve');
         resolve(_data[table]);
@@ -36,10 +32,10 @@ Database.prototype = {
     });
   },
 
-  get: function(table, id) {
+  get: function (table, id) {
     var _data = this.data;
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (_data[table] != undefined && _data[table][getKey(id)] != undefined) {
         resolve(_data[table][getKey(id)]);
       } else {
@@ -48,10 +44,10 @@ Database.prototype = {
     });
   },
 
-  save: function(table, object) {
+  save: function (table, object) {
     var _data = this.data;
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var identifier = getIdentifier(this, object);
 
       if (_data[table] != undefined) {
@@ -64,9 +60,9 @@ Database.prototype = {
     });
   },
 
-  findBy: function(table, field, value) {
+  findBy: function (table, field, value) {
     var _data = this.data;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var rows = _data[table];
 
       if (rows != undefined) {
@@ -84,11 +80,11 @@ Database.prototype = {
   }
 }
 
-var getKey = function(id) {
+var getKey = function (id) {
   return '' + id;
 }
 
-var getIdentifier = function(database, object) {
+var getIdentifier = function (database, object) {
   if (object.identifier) {
     return object.identifier;
   } else {
@@ -97,7 +93,7 @@ var getIdentifier = function(database, object) {
   }
 }
 
-var getTable = function(database, table) {
+var getTable = function (database, table) {
   var list = {};
 
   var tablePath = path.join(databasePath, table);

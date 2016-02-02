@@ -1,6 +1,6 @@
 /* global literalsModel, literals, user, globalsModel, user, story */
 'use strict';
-define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
+define(['models/users/user', 'views/main/main'], function (UserModel, MainView) {
   var AppRouter = Backbone.Router.extend({
     routes: {
       'test': 'testRoute',
@@ -12,15 +12,15 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
       '*actions': 'defaultAction'
     },
     view: null,
-    initialize: function() {
+    initialize: function () {
       this.listenTo(this, 'route', this.updateHistory);
       var _self = this;
       this.currentFragment = '';
-      this.listenTo(this, 'route', function() {
+      this.listenTo(this, 'route', function () {
         _self.currentFragment = Backbone.history.fragment;
       });
     },
-    updateHistory: function(name) {
+    updateHistory: function (name) {
 
       story.push({
         name: name
@@ -43,31 +43,30 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
     //  }
     //},
 
-    activateNav: function(e) {
+    activateNav: function (e) {
       //$('a[href$="' + e + '"]').closest('li').addClass('active');
     },
-    defaultAction: function() {
+    defaultAction: function () {
       this.view = null;
       this.dashBoard();
       this.activateNav('dashBoard');
     },
-    dashBoardAccesed: function() {
+    dashBoardAccesed: function () {
       if (!_.isUndefined(window.user) && user.isLogged()) {
         this.defaultAction();
       } else {
         this.cleanDashboard();
 
-
         //window.location.href = globals.commonGatewayLoginURL;
       }
     },
 
-    testRoute: function() {
+    testRoute: function () {
       window.user.fetch({
-        success: function(user) {
+        success: function (user) {
           console.log(user);
         },
-        error: function() {
+        error: function () {
           console.log("error");
         }
       });
@@ -76,7 +75,7 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
     /**
      * the dashboard is the structure of the page, the menus, headers etc...
      */
-    dashBoard: function() {
+    dashBoard: function () {
       this.cleanDashboard();
 
       if (_.isUndefined(window.user) || !user.isLogged()) {
@@ -96,7 +95,7 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
       }
 
     },
-    cleanDashboard: function() {
+    cleanDashboard: function () {
       if (this.mainView) {
         this.mainView.remove();
         this.mainView = null;
@@ -105,11 +104,11 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
       var container = $('body').empty();
     },
 
-    login: function() {
+    login: function () {
       this.cleanDashboard();
 
       var container = $('body');
-      require(['js/views/auth/login'], function(LoginView) {
+      require(['js/views/auth/login'], function (LoginView) {
         var loginView = new LoginView({
           el: $('<section>').appendTo(container)
         });
@@ -119,20 +118,22 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
     /**
      * logout
      */
-    logout: function() {
-      user.logout();
+    logout: function () {
+      if (_.isUndefined(window.user) || !user.isLogged()) {
+        window.user.logout();
+      }
     }
   });
 
-  var initialize = function() {
+  var initialize = function () {
 
     // We handle here the prefilter to add the security Tokens.
-    $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+    $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
       var oldBeforeSend;
       if (!_.isUndefined(options.beforeSend)) {
         oldBeforeSend = options.beforeSend;
       }
-      options.beforeSend = function(xhr) {
+      options.beforeSend = function (xhr) {
         xhr.withCredentials = true;
         if (oldBeforeSend) {
           oldBeforeSend(xhr);
@@ -141,14 +142,14 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
       jqXHR.setRequestHeader('Cache-Control', 'no-cache');
       jqXHR.setRequestHeader('Pragma', 'no-cache');
       if (!_.isUndefined(window.app) && !_.isUndefined(window.app.headers) && window.app.headers) {
-        _.each(window.app.headers, function(value, key) {
+        _.each(window.app.headers, function (value, key) {
           jqXHR.setRequestHeader(key, value);
         });
       }
       return jqXHR;
     });
 
-    $(document).ajaxError(function(event, response, settings) {
+    $(document).ajaxError(function (event, response, settings) {
       if (!/abort|cancel|timeout/i.test(response.statusText)) {
         $(document).trigger('handleError', [response, settings, event]);
       }
@@ -179,10 +180,10 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
     //  };
     //  return oldAjax.apply($, [url, options]);
     //};
-    $(document).ajaxSuccess(function(event, response, settings) {});
+    $(document).ajaxSuccess(function (event, response, settings) {});
     window.enableAsynchronousCommunications = false;
     if (!/callback/i.test(window.location.href)) {
-      var initRouter = function() {
+      var initRouter = function () {
         window.story = [];
         window.appRouter = new AppRouter();
         Backbone.history.start({
@@ -191,7 +192,7 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
       };
 
       var waitRequests = 1;
-      var callback = function() {
+      var callback = function () {
         waitRequests--;
         if (waitRequests <= 0) {
           initRouter();
@@ -200,7 +201,7 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
 
       var user = new UserModel();
       user.fetch({
-        success: function() {
+        success: function () {
           window.user = user;
           callback();
         },
@@ -217,8 +218,8 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
       //    }
       //});
 
-      $(window).bind('beforenload', function(e) {});
-      $(window).on('unload', function(e) {});
+      $(window).bind('beforenload', function (e) {});
+      $(window).on('unload', function (e) {});
 
     } else {
       window.appRouter = new AppRouter();
