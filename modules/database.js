@@ -4,11 +4,16 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
-var databasePath = path.join(__dirname, '../modules/database');
+var jsonfile = require('jsonfile')
+
+var databaseFile = path.join(__dirname, '../resources/database/database.json');
 var resourceLoader = require('./resourceLoader.js');
 
 function Database() {
-  this.data = {};
+  this.data = jsonfile.readFileSync(this.databaseFile);
+  this.temp = {};
+  this.temp['sessions'] = {};
+  this.sequence = 0;
 }
 
 Database.prototype = {
@@ -58,6 +63,10 @@ Database.prototype = {
         reject(table, object);
       }
     });
+  },
+
+  commit: function () {
+    jsonfile.writeFileSync(databaseFile, this.data);
   },
 
   findBy: function (table, field, value) {
@@ -116,6 +125,6 @@ var getTable = function (database, table) {
 
 // Default instance
 var database = new Database();
-database.load();
+//database.load();
 
 module.exports = database;
