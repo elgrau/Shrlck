@@ -4,29 +4,27 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
-var jsonfile = require('jsonfile')
+var jsonfile = require('jsonfile');
+var uuid = require('node-uuid');
 
 var databaseFile = path.join(__dirname, '../resources/database/database.json');
 var resourceLoader = require('./resourceLoader.js');
 
 function Database() {
-  this.data = jsonfile.readFileSync(this.databaseFile);
-  this.temp = {};
-  this.temp['sessions'] = {};
-  this.sequence = 0;
+  console.log(databaseFile);
+  this.data = jsonfile.readFileSync(databaseFile);
 }
 
 Database.prototype = {
-  load: function () {
+  load: function() {
     this.data = {};
-    this.sequence = 0;
     this.data['users'] = getTable(this, 'users');
     this.data['sessions'] = {};
   },
 
-  all: function (table) {
+  all: function(table) {
     var _data = this.data;
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (_data[table] != undefined) {
         console.log('database.resolve');
         resolve(_data[table]);
@@ -37,10 +35,10 @@ Database.prototype = {
     });
   },
 
-  get: function (table, id) {
+  get: function(table, id) {
     var _data = this.data;
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (_data[table] != undefined && _data[table][getKey(id)] != undefined) {
         resolve(_data[table][getKey(id)]);
       } else {
@@ -49,15 +47,15 @@ Database.prototype = {
     });
   },
 
-  save: function (table, object) {
+  save: function(table, object) {
     var _data = this.data;
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       var identifier = getIdentifier(this, object);
 
       if (_data[table] != undefined) {
         object.identifier = identifier;
-        _data[table][getKey(identifier)] = object;
+        _data[table].push(object);
         resolve(object);
       } else {
         reject(table, object);
@@ -65,13 +63,14 @@ Database.prototype = {
     });
   },
 
-  commit: function () {
+  commit: function() {
+    console.log(this.data)
     jsonfile.writeFileSync(databaseFile, this.data);
   },
 
-  findBy: function (table, field, value) {
+  findBy: function(table, field, value) {
     var _data = this.data;
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       var rows = _data[table];
 
       if (rows != undefined) {
@@ -89,20 +88,19 @@ Database.prototype = {
   }
 }
 
-var getKey = function (id) {
+var getKey = function(id) {
   return '' + id;
 }
 
-var getIdentifier = function (database, object) {
+var getIdentifier = function(database, object) {
   if (object.identifier) {
     return object.identifier;
   } else {
-    database.sequence++;
-    return database.sequence;
+    return uuid.v1();
   }
 }
 
-var getTable = function (database, table) {
+var getTable = function(database, table) {
   var list = {};
 
   var tablePath = path.join(databasePath, table);

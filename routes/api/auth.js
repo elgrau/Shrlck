@@ -14,7 +14,7 @@ var db = require('../../models');
 var database = require('../../modules/database');
 var users = require('./users');
 
-var createToken = function (user) {
+var createToken = function(user) {
   var expires = moment().add(30, 'days').valueOf();
   return jwt.encode({
     iss: user.identifier,
@@ -24,7 +24,7 @@ var createToken = function (user) {
 }
 
 var auth = {
-  validateToken: function (req, res, next) {
+  validateToken: function(req, res, next) {
     if (req.session.user) {
       req.user = req.session.user;
       return next();
@@ -69,7 +69,7 @@ var auth = {
     //    }
   },
 
-  me: function (req, res) {
+  me: function(req, res) {
     //check passport session for instagram twitter or local
     // use session value
 
@@ -80,7 +80,72 @@ var auth = {
   },
 
   // registering a user
-  register: function (req, res) {
+  signup: function(req, res) {
+    var username = (req.body.username !== undefined) ? req.body.username : false;
+    var email = (req.body.email !== undefined) ? req.body.email : false;
+    var password = (req.body.password !== undefined) ? req.body.password : false;
+
+    if (!username || !email || !password) {
+      //send bad request
+      return res.status(400).json({
+        payload: {},
+        message: "Missing fields"
+      });
+    }
+
+    database.findBy('users', 'email', email).then(function(user) {
+
+      if (!_.isEmpty(user)) {
+
+        return res.status(400).json({
+          payload: {},
+          message: "Email already exists"
+        });
+      } else {
+
+        user = {
+          "username": username,
+          "email": email,
+          "password": password
+        };
+
+
+        database.save('users', user).then(function(userSaved) {
+          console.log('user saved');
+          database.commit();
+
+          var session = req.session;
+          session.user = userSaved;
+
+          return res.status(200).json({
+            payload: {
+              user: userSaved
+            },
+            message: "Registration successfull"
+          });
+
+        }).catch(function() {
+          return res.status(400).json({
+            payload: {},
+            message: "User cannot be registered"
+          });
+        });
+
+        var session = req.session;
+        session.user = user;
+
+        return res.status(200).json({
+          payload: {
+            user: user
+          },
+          message: "Authentication successfull"
+        });
+      }
+    });
+
+
+
+
     //var user = req.body.user;
     //console.log('auth.register');
     //// check user
@@ -116,7 +181,7 @@ var auth = {
     //  });
   },
   // login a user
-  login: function (req, res) {
+  login: function(req, res) {
     var email = (req.body.email !== undefined) ? req.body.email : false;
     var password = (req.body.password !== undefined) ? req.body.password : false;
 
@@ -128,7 +193,7 @@ var auth = {
       });
     }
 
-    database.findBy('users', 'email', email).then(function (user) {
+    database.findBy('users', 'email', email).then(function(user) {
       if (!_.isEmpty(user) && user.password === password) {
 
         var session = req.session;
@@ -149,8 +214,8 @@ var auth = {
     });
   },
 
-  logout: function (req, res) {
-    req.session.destroy(function (err) {
+  logout: function(req, res) {
+    req.session.destroy(function(err) {
       // cannot access session here
     });
     //db.tokenRequest.delete(req.user, 'user').then(function() {

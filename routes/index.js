@@ -32,7 +32,7 @@ function ensureUnauthenticated(req, res, next) {
 //authentication
 router.get('/me', api.auth.validateToken, ensureAuthenticated, api.auth.me);
 router.post('/login', api.auth.validateToken, ensureUnauthenticated, api.auth.login);
-router.post('/register', api.auth.validateToken, ensureUnauthenticated, api.auth.register);
+router.post('/signup', api.auth.validateToken, ensureUnauthenticated, api.auth.signup);
 router.get('/logout', api.auth.validateToken, ensureAuthenticated, api.auth.logout);
 
 //api/users calls

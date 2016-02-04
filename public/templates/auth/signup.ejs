@@ -4,7 +4,15 @@
 		<forms-input
 		label="Nombre"
 		name="username"
-		id="signup-username"
+		id="username"
+		required="true"
+		></forms-input>
+
+        <% /* username */ %>
+		<forms-input
+		label="E-mail"
+		name="email"
+		id="email"
 		required="true"
 		></forms-input>
 
@@ -13,18 +21,12 @@
 		label="Password"
 		type="password"
 		name="password"
-		id="signup-password"
+		id="password"
 		required="true"
 		></forms-input>
 
-		<% /* username */ %>
-		<forms-input
-		label="E-mail"
-		name="email"
-		id="signup-email"
-		required="true"
-		></forms-input>
+		
 
-		<forms-button label="Solicitar registro" classes="btn btn-primary" icon="fa fa-pencil-square-o" action="signUp"></forms-button>
+		<forms-button label="Solicitar registro" classes="btn btn-primary" icon="fa fa-pencil-square-o" action="signup"></forms-button>
 	</form>
 </div>	
