@@ -132,9 +132,11 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
      * logout
      */
     logout: function() {
-      if (_.isUndefined(window.user) || !user.isLogged()) {
+      if (!_.isUndefined(window.user) && user.isLogged()) {
         window.user.logout();
+        delete window.user;
       }
+      window.location.href = '#';
     }
   });
 
@@ -220,16 +222,6 @@ define(['models/users/user', 'views/main/main'], function(UserModel, MainView) {
         },
         error: callback
       });
-
-      //window.user = new UserModel();
-      //window.user.fetch({
-      //    success: function () {
-      //        console.log("usuario leído");
-      //    },
-      //    error: function () {
-      //        console.error("error obteniendo usuario");
-      //    }
-      //});
 
       $(window).bind('beforenload', function(e) {});
       $(window).on('unload', function(e) {});

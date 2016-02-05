@@ -11,7 +11,6 @@ var databaseFile = path.join(__dirname, '../resources/database/database.json');
 var resourceLoader = require('./resourceLoader.js');
 
 function Database() {
-  console.log(databaseFile);
   this.data = jsonfile.readFileSync(databaseFile);
 }
 
@@ -26,10 +25,8 @@ Database.prototype = {
     var _data = this.data;
     return new Promise(function(resolve, reject) {
       if (_data[table] != undefined) {
-        console.log('database.resolve');
         resolve(_data[table]);
       } else {
-        console.log('database.all.reject');
         reject(table);
       }
     });
@@ -51,20 +48,23 @@ Database.prototype = {
     var _data = this.data;
 
     return new Promise(function(resolve, reject) {
-      var identifier = getIdentifier(this, object);
-
-      if (_data[table] != undefined) {
-        object.identifier = identifier;
-        _data[table].push(object);
-        resolve(object);
+      if (!_.isArray(object)) {
+        if (_data[table] != undefined) {
+          var identifier = getIdentifier(this, object);
+          object.identifier = identifier;
+          _data[table].push(object);
+          resolve(object);
+        } else {
+          reject(table, object);
+        }
       } else {
-        reject(table, object);
+        _data[table] = object;
+        resolve(object);
       }
     });
   },
 
   commit: function() {
-    console.log(this.data)
     jsonfile.writeFileSync(databaseFile, this.data);
   },
 
@@ -76,8 +76,6 @@ Database.prototype = {
       if (rows != undefined) {
         for (var key in rows) {
           var row = rows[key];
-          console.log(row);
-          console.log(row[field]);
           if (row[field] && row[field] === value) {
             resolve(row);
           }

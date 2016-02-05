@@ -6,7 +6,7 @@ var util = require('util');
 var resourceLoader = require('../../modules/resourceLoader');
 var emailSender = require('../../modules/mail/email');
 
-var pistas = {
+var clue = {
   // get pista by id
   get: function(req, res) {
     var resourceFile = req.params.id;
@@ -18,8 +18,6 @@ var pistas = {
       var imagePath = 'resources/clue/' + image;
 
       if (resourceLoader.contains(image, 'clue')) {
-        console.log('image:' + imagePath);
-
         attachments = [{
           filename: image,
           path: imagePath,
@@ -33,14 +31,12 @@ var pistas = {
           message: "success"
         });
       }).catch(function(error) {
-        console.error("Send email:" + error);
         return res.status(400).json({
           error: "cannot send email",
           message: error
         });
       });
     }).catch(function(error) {
-      console.error("Resource file:" + error);
       return res.status(400).json({
         error: "clue not found",
         message: error
@@ -50,4 +46,4 @@ var pistas = {
 
 }
 
-module.exports = pistas;
+module.exports = clue;

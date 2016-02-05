@@ -27,6 +27,7 @@
     "static-favicon": "~1.0.0",
     "stylus": "0.42.3",
     "underscore": "x",
+    "validator": "^4.7.0",
     "xoauth2": "^1.1.0"
   }
 }

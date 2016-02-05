@@ -1,5 +1,5 @@
 'use strict';
-define([], function () {
+define([], function() {
   /**
    * This model is the current user logged
    * @name Models.User
@@ -12,9 +12,9 @@ define([], function () {
       username: '',
       email: ''
     },
-    initialize: function (attributes) {
+    initialize: function(attributes) {
       this.logged = false;
-      this.bind('change', function () {
+      this.bind('change', function() {
         this.save();
       });
       if (!_.isUndefined(attributes) /*&& !_.isUndefined(attributes.token) && attributes.token*/ ) {
@@ -28,7 +28,7 @@ define([], function () {
      * Gets the URL to get the resource
      * @param  {Object}
      */
-    url: function () {
+    url: function() {
       return 'api/me';
     },
     /**
@@ -36,12 +36,12 @@ define([], function () {
      * If the fetch is successful the user will be logged in.
      * @param  {Object}
      */
-    fetch: function (options) {
+    fetch: function(options) {
       var _self = this;
       $.ajax({
         method: 'GET',
         url: this.url(),
-        success: function (userData) {
+        success: function(userData) {
           if (!_.isUndefined(userData)) {
             _self.set(userData.payload.user);
 
@@ -54,7 +54,7 @@ define([], function () {
             }
           }
         },
-        error: function (err) {
+        error: function(err) {
           if (!_.isUndefined(options.error)) {
             options.error(_self);
           }
@@ -66,17 +66,17 @@ define([], function () {
      * Save does noop
      * @param  {Object}
      */
-    save: function () {
+    save: function() {
       return true;
     },
     /**
      * Get if the user is logged or not
      * @return {Boolean} logged
      */
-    isLogged: function () {
+    isLogged: function() {
       return this.logged;
     },
-    paramReplace: function (name, string, value) {
+    paramReplace: function(name, string, value) {
       var re = new RegExp('[\\?&]' + name + '=([^&#]*)'),
         delimeter = re.exec(string)[0].charAt(0),
         newString = string.replace(re, delimeter + name + '=' + value);
@@ -88,8 +88,7 @@ define([], function () {
      * Get if the user is logged or not
      * @return {Boolean} logged
      */
-    loggedSuccess: function () {
-      var _self = this;
+    loggedSuccess: function() {
       this.logged = true;
 
       //$(document).ajaxSend(function(e, xhr, options) {
@@ -98,27 +97,39 @@ define([], function () {
 
       this.trigger('loggedSuccess');
     },
-    logout: function () {
+    logout: function() {
       //window.inboxStatus = null;
       //this.clear();
-      this.logged = false;
-      delete window.user;
-      window.location.href = 'localhost:3000';
+
+      var _self = this;
+      $.ajax({
+        method: 'GET',
+        url: 'api/logout',
+        success: function(userData) {
+          _self.loggedOut();
+        },
+        error: function(err) {
+          _self.loggedOut();
+        }
+      });
     },
-    hasType: function (type) {
+    loggedOut: function() {
+      this.logged = false;
+    },
+    hasType: function(type) {
       return type === this.get('userType').key.toUpperCase();
     },
     /**
      * Checks whether the user has a specific role.
      * @return {Array} roles
      */
-    hasRole: function (role) {
+    hasRole: function(role) {
       return role === this.get('roleType').key.toUpperCase();
     },
     /**
      * Checks if an user is Admin
      */
-    isAdmin: function () {
+    isAdmin: function() {
       return this.hasType(this.constructor.types.ADMIN);
     }
   }, {

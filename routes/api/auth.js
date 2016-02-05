@@ -8,6 +8,7 @@ var passport = require('passport');
 var moment = require('moment');
 var _ = require('lodash');
 var jwt = require('jwt-simple');
+var validator = require("validator");
 
 var config = require('../../config');
 var db = require('../../models');
@@ -88,8 +89,13 @@ var auth = {
     if (!username || !email || !password) {
       //send bad request
       return res.status(400).json({
-        payload: {},
-        message: "Missing fields"
+        error: "Missing fields",
+        message: "SignUp not completed"
+      });
+    } else if (!validator.isEmail(email)) {
+      return res.status(400).json({
+        error: "Email not valid",
+        message: "SignUp not completed"
       });
     }
 
@@ -109,17 +115,19 @@ var auth = {
           "password": password
         };
 
-
         database.save('users', user).then(function(userSaved) {
-          console.log('user saved');
           database.commit();
 
+          delete userSaved["password"];
           var session = req.session;
           session.user = userSaved;
 
+          var userData = _.clone(userSaved);
+          delete userData["password"];
+
           return res.status(200).json({
             payload: {
-              user: userSaved
+              user: userData
             },
             message: "Registration successfull"
           });
@@ -130,55 +138,8 @@ var auth = {
             message: "User cannot be registered"
           });
         });
-
-        var session = req.session;
-        session.user = user;
-
-        return res.status(200).json({
-          payload: {
-            user: user
-          },
-          message: "Authentication successfull"
-        });
       }
     });
-
-
-
-
-    //var user = req.body.user;
-    //console.log('auth.register');
-    //// check user
-    //if (!user) {
-    //  //send bad request
-    //  return res.status(500).json({
-    //    payload: {},
-    //    message: "Invalid request"
-    //  });
-    //}
-    //
-    //// check user fields
-    //if (!user.username || !user.email || !user.password) {
-    //  //send bad request
-    //  return res.status(400).json({
-    //    payload: {},
-    //    message: "Missing credentials check all the fields then try again"
-    //  });
-    //}
-    //
-    //db.user.create(user).then(function(user) {
-    //    //success when signing up, now we try to login
-    //    res.status(200).json({
-    //      payload: user,
-    //      message: "Account successfully created"
-    //    });
-    //  },
-    //  function(error) {
-    //    res.status(400).json({
-    //      payload: error.code,
-    //      message: error.message
-    //    });
-    //  });
   },
   // login a user
   login: function(req, res) {
@@ -196,12 +157,16 @@ var auth = {
     database.findBy('users', 'email', email).then(function(user) {
       if (!_.isEmpty(user) && user.password === password) {
 
+
         var session = req.session;
         session.user = user;
 
+        var userData = _.clone(user);
+        delete userData["password"];
+
         return res.status(200).json({
           payload: {
-            user: user
+            user: userData
           },
           message: "Authentication successfull"
         });
@@ -215,21 +180,17 @@ var auth = {
   },
 
   logout: function(req, res) {
+    if (req.session.user) {
+      delete req.session["user"];
+    }
+
     req.session.destroy(function(err) {
-      // cannot access session here
+
+      return res.status(200).json({
+        payload: {},
+        message: "Logged out"
+      });
     });
-    //db.tokenRequest.delete(req.user, 'user').then(function() {
-    //  db.user.Parse.User.logOut();
-    //  res.json({
-    //    payload: {},
-    //    message: "logout message triggered"
-    //  })
-    //}, function(error) {
-    //  res.json({
-    //    payload: {},
-    //    message: "Logout failed"
-    //  });
-    //});
   }
 }
 

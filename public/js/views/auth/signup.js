@@ -29,14 +29,10 @@ define(['jquery', 'underscore', 'backbone', 'models/users/user', 'text!templates
           $('body').trigger('showNotificationModal', ['generic', 'Logging', "Validando usuario..."]);
         },
         success: function(response) {
-          console.log('Logged succesfuly.');
-          $('body').trigger('showNotificationModal', ['Warning', 'success', "Acceso aceptado"]);
-          window.app.headers['x-access-token'] = response.payload.token;
+          console.log('Registered succesfuly.');
           window.user = new UserModel(_.extend({}, response.payload.user));
 
-          $('body').trigger('hideNotificationModal', 'Logging');
           appRouter.navigate('dashBoard', true);
-
         },
         error: function(err) {
           console.log('Logged error. ' + err);
