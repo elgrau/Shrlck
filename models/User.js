@@ -1,48 +1,33 @@
 'use strict';
 
-var DbBase = require('./db'),
-  inherits = require('util').inherits;
+var PouchModel = require('./PouchModel');
+var inherits = require('util').inherits;
 
-function userDb() {
-  DbBase.call(this, '_User');
+function User() {
+  PouchModel.call(this, 'user');
 };
 
-inherits(userDb, DbBase);
+inherits(User, PouchModel);
 
-// creating a new user means signing the user up :)
-userDb.prototype.create = function(data) {
-  var promise = new this.promise();
+User.prototype.login = function(email, password) {
+  var _database = User.super_.prototype.database.call(this);
 
-  // creating new user
-  var user = new this.dbObj();
-
-  user.set("username", data.username);
-  user.set("password", data.password);
-  user.set("email", data.email);
-
-  /*
-	if(data.location){
-		if(data.location.latitude && data.location.longitude){
-			var geoPoint = new this.Parse.GeoPoint({
-				latitude: parseFloat(data.location.latitude), 
-				longitude: parseFloat(data.location.longitude)
-			}); // parse geopoint	
-		}
-		user.set("location", geoPoint);
-
-		geoPoint.set('name',data.location.name);
-	}*/
-
-  user.signUp(null, {
-    success: function(user) {
-      promise.resolve(user);
-    },
-    error: function(user, error) {
-      promise.reject(error);
-    }
+  return new Promise(function(resolve, reject) {
+    _database.get(email).then(function (user) {
+      if (user.password === password) {
+        return resolve(user);
+      } else {
+        return reject("Authentication failed");
+      }
+    }).catch(function (error) {
+      reject(error);
+    });
   });
-
-  return promise;
 }
 
-module.exports = userDb;
+User.prototype.signup = function(data) {
+  return User.super_.prototype.put.call(this,data);
+}
+
+
+module.exports = User;

@@ -4,13 +4,10 @@ var util = require('util');
 var express = require('express');
 
 exports.users = require('./users');
-exports.threads = require('./threads');
-exports.messages = require('./messages');
 exports.auth = require('./auth');
-exports.settings = require('./settings');
-exports.images = require('./images');
 exports.clue = require('./clue');
 exports.game = require('./game');
+exports.team = require('./team');
 
 exports.default = function(req, res) {
   return res.json({

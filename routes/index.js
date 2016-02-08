@@ -37,16 +37,17 @@ router.get('/logout', api.auth.validateToken, ensureAuthenticated, api.auth.logo
 
 //api/users calls
 router.get('/', api.default);
-router.get('/users', api.auth.validateToken, ensureAuthenticated, api.users.all);
+router.get('/users', api.auth.validateToken, ensureUnauthenticated, api.users.all);
 router.get('/users/:id', api.auth.validateToken, ensureUnauthenticated, api.users.get);
 router.put('/users/:id', api.auth.validateToken, ensureAuthenticated, api.users.update);
 router.delete('/users/:id', api.auth.validateToken, ensureAuthenticated, api.users.delete);
 
-router.get('/messages', api.auth.validateToken, ensureUnauthenticated, api.messages.all);
-router.get('/messages/:id', api.auth.validateToken, ensureUnauthenticated, api.messages.getById);
+//router.get('/messages', api.auth.validateToken, ensureUnauthenticated, api.messages.all);
+//router.get('/messages/:id', api.auth.validateToken, ensureUnauthenticated, api.messages.getById);
 
 router.get('/startgame', api.auth.validateToken, ensureUnauthenticated, api.game.start);
-router.get('/clue/:id', api.auth.validateToken, ensureUnauthenticated, api.clue.get);
+router.get('/clue/:id', api.auth.validateToken, ensureAuthenticated, api.clue.get);
+router.get('/teams', api.auth.validateToken, ensureUnauthenticated, api.team.all);
 
 //api error
 router.get('/error', api.error);

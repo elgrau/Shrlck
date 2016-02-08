@@ -11,9 +11,9 @@ var jwt = require('jwt-simple');
 var validator = require("validator");
 
 var config = require('../../config');
-var db = require('../../models');
-var database = require('../../modules/database');
-var users = require('./users');
+
+var models = require('../../models');
+
 
 var createToken = function(user) {
   var expires = moment().add(30, 'days').valueOf();
@@ -99,46 +99,23 @@ var auth = {
       });
     }
 
-    database.findBy('users', 'email', email).then(function(user) {
+    models.user.signup({
+      "_id": email,
+      "username": username,
+      "password": password
+    }).then(function(user) {
+      var session = req.session;
+      session.user = user;
 
-      if (!_.isEmpty(user)) {
-
-        return res.status(400).json({
-          payload: {},
-          message: "Email already exists"
-        });
-      } else {
-
-        user = {
-          "username": username,
-          "email": email,
-          "password": password
-        };
-
-        database.save('users', user).then(function(userSaved) {
-          database.commit();
-
-          delete userSaved["password"];
-          var session = req.session;
-          session.user = userSaved;
-
-          var userData = _.clone(userSaved);
-          delete userData["password"];
-
-          return res.status(200).json({
-            payload: {
-              user: userData
-            },
-            message: "Registration successfull"
-          });
-
-        }).catch(function() {
-          return res.status(400).json({
-            payload: {},
-            message: "User cannot be registered"
-          });
-        });
-      }
+      return res.status(200).json({
+        payload: user,
+        message: "Registration successfull"
+      });
+    }).catch(function(error) {
+      return res.status(400).json({
+        error: "" + error,
+        message: "User cannot be registered"
+      });
     });
   },
   // login a user
@@ -154,28 +131,19 @@ var auth = {
       });
     }
 
-    database.findBy('users', 'email', email).then(function(user) {
-      if (!_.isEmpty(user) && user.password === password) {
+    models.user.login(email, password).then(function(user) {
+      var session = req.session;
+      session.user = user;
 
-
-        var session = req.session;
-        session.user = user;
-
-        var userData = _.clone(user);
-        delete userData["password"];
-
-        return res.status(200).json({
-          payload: {
-            user: userData
-          },
-          message: "Authentication successfull"
-        });
-      } else {
-        return res.status(400).json({
-          payload: {},
-          message: "Authentication failed"
-        });
-      }
+      return res.status(200).json({
+        payload: user,
+        message: "Authentication successfull"
+      });
+    }).catch(function(error) {
+      return res.status(400).json({
+        error: "" + error,
+        message: "Authentication failed"
+      });
     });
   },
 

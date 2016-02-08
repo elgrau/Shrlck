@@ -1,9 +1,13 @@
 'use strict';
 
-var game = require('./Game');
+var Game = require('./Game');
+var User = require('./User');
+var Team = require('./Team');
 
-var modelInterface = {
-	game: game
+var models = {
+  game: new Game(),
+  user: new User(),
+  team: new Team()
 }
 
-module.exports = modelInterface;
+module.exports = models;

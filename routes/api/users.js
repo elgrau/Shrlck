@@ -3,14 +3,14 @@
 	api definition for users
 */
 var util = require('util');
-var database = require('../../modules/database');
+var models = require('../../models');
 
 var users = {
   all: function(req, res) {
-    database.all('users').then(function(users) {
+
+    models.user.all().then(function(users) {
       return res.status(200).json({
-        payload: users,
-        message: "api.users.get success"
+        payload: users
       });
     }).catch(function() {
       return res.status(400).json({
