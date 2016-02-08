@@ -1,48 +1,50 @@
 'use strict';
 
-var DbBase = require('./db'),
-  inherits = require('util').inherits;
+var database = require('../modules').database;
 
-function userDb() {
-  DbBase.call(this, '_User');
-};
+function User() {};
 
-inherits(userDb, DbBase);
-
-// creating a new user means signing the user up :)
-userDb.prototype.create = function(data) {
-  var promise = new this.promise();
-
-  // creating new user
-  var user = new this.dbObj();
-
-  user.set("username", data.username);
-  user.set("password", data.password);
-  user.set("email", data.email);
-
-  /*
-	if(data.location){
-		if(data.location.latitude && data.location.longitude){
-			var geoPoint = new this.Parse.GeoPoint({
-				latitude: parseFloat(data.location.latitude), 
-				longitude: parseFloat(data.location.longitude)
-			}); // parse geopoint	
-		}
-		user.set("location", geoPoint);
-
-		geoPoint.set('name',data.location.name);
-	}*/
-
-  user.signUp(null, {
-    success: function(user) {
-      promise.resolve(user);
-    },
-    error: function(user, error) {
-      promise.reject(error);
-    }
-  });
-
-  return promise;
+User.prototype.all = function () {
+  return database.object.users;
 }
 
-module.exports = userDb;
+User.prototype.get = function (criteria) {
+  return database('users').find(criteria);
+}
+
+User.prototype.save = function (data) {
+
+  return new Promise(function (resolve, reject) {
+    var user = {};
+    user.email = data.email || undefined;
+    user.username = data.username || '';
+    user.password = data.password || '';
+
+    if (user.email === undefined) {
+      reject('Email not provided');
+    } else {
+      var userdb = database('users').find({
+        "email": user.email
+      });
+      if (userdb) {
+        database('users').chain().find({
+          "email": user.email
+        }).assign(user).value().then(function (value) {
+          resolve(value)
+        }).catch(function (error) {
+          reject(error)
+        });
+      } else {
+        database('users').push(user).then(function (value) {
+          resolve(user)
+        }).catch(function (error) {
+          reject(error)
+        });
+      }
+    }
+  });
+}
+
+var user = new User();
+
+module.exports = user;

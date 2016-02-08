@@ -42,9 +42,6 @@ router.get('/users/:id', api.auth.validateToken, ensureUnauthenticated, api.user
 router.put('/users/:id', api.auth.validateToken, ensureAuthenticated, api.users.update);
 router.delete('/users/:id', api.auth.validateToken, ensureAuthenticated, api.users.delete);
 
-router.get('/messages', api.auth.validateToken, ensureUnauthenticated, api.messages.all);
-router.get('/messages/:id', api.auth.validateToken, ensureUnauthenticated, api.messages.getById);
-
 router.get('/startgame', api.auth.validateToken, ensureUnauthenticated, api.game.start);
 router.get('/clue/:id', api.auth.validateToken, ensureUnauthenticated, api.clue.get);
 

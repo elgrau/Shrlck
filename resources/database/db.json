@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "email": "yagarsi@gmail.com",
+      "username": "sdf",
+      "password": "222"
+    },
+    {
+      "email": "elgrau@gmail.com",
+      "username": "elgrau",
+      "password": "overlord"
+    }
+  ],
+  "teams": [
+    {
+      "id": "A",
+      "users": [
+        "elgrau@gmail.com"
+      ]
+    },
+    {
+      "id": "B",
+      "users": [
+        "yagarsi@gmail.com"
+      ]
+    }
+  ]
+}
