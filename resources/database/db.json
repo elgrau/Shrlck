@@ -2,27 +2,34 @@
   "users": [
     {
       "email": "yagarsi@gmail.com",
-      "username": "sdf",
-      "password": "222"
+      "username": "yagarsi",
+      "password": "1234"
     },
     {
       "email": "elgrau@gmail.com",
       "username": "elgrau",
-      "password": "overlord"
+      "password": "1234"
+    },
+    {
+      "email": "grau.informatica@gmail.com",
+      "username": "federico",
+      "password": "1234"
     }
   ],
   "teams": [
     {
-      "id": "A",
+      "id": 1,
       "users": [
-        "elgrau@gmail.com"
+        "yagarsi@gmail.com",
+        "grau.informatica@gmail.com"
       ]
     },
     {
-      "id": "B",
+      "id": 2,
       "users": [
-        "yagarsi@gmail.com"
+        "elgrau@gmail.com"
       ]
     }
-  ]
+  ],
+  "teams.users": []
 }

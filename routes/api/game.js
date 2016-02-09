@@ -6,31 +6,25 @@ var models = require('../../models');
 
 var game = {
 
-  start: function (req, res) {
+    start: function (req, res) {
 
-    var users = models.user.all();
-    console.log(users);
-    var teams = models.team.createTeams(users);
+        var users = models.user.all();
+        models.team.createTeams(users, 2).then(function (teams) {
 
-    return res.status(200).json({
-      payload: teams,
-      message: "game started"
-    });
+            var team = models.team.findByUser("elgrau@gmail.com");
+            console.log(team);
 
-    //models.game.start().then(function (teams) {
-    //  return res.status(200).json({
-    //    payload: {},
-    //    message: "game started"
-    //  });
-    //});
-    //.catch(function (error) {
-    //  console.log("error:" + error);
-    //  return res.status(400).json({
-    //    error: "" + error,
-    //    message: "game not started."
-    //  });
-    //});
-  }
+            return res.status(200).json({
+                payload: teams,
+                message: "game started"
+            });
+        }).catch(function (error) {
+            return res.status(400).json({
+                error: error,
+                message: "game not started."
+            });
+        });
+    }
 }
 
 module.exports = game;
