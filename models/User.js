@@ -45,6 +45,25 @@ User.prototype.save = function (data) {
   });
 }
 
+User.prototype.userNames = function (users) {
+  var usernames = [];
+
+  if (users.length > 0) {
+    for (var key in users) {
+      var email = users[key];
+
+      var user = User.prototype.get.call(this, {
+        "email": email
+      });
+
+      if (user) {
+        usernames.push(user.username);
+      }
+    }
+  }
+  return usernames;
+}
+
 var user = new User();
 
 module.exports = user;

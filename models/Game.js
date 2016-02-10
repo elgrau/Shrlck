@@ -19,9 +19,9 @@ function createTeams(id, teams) {
 
 function sendCase(game) {
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var gamePath = 'game/' + game.id;
-    resourceLoader.file('case.html', gamePath).then(function(data) {
+    resourceLoader.file('case.html', gamePath).then(function (data) {
 
       var attachments = [];
       var image = 'case.png';
@@ -37,16 +37,19 @@ function sendCase(game) {
 
       if (!_.isEmpty(game.teams)) {
 
-        var html = mail.createHtml(data);
         for (var key in game.teams) {
           var team = game.teams[key];
 
           if (!_.isEmpty(team.users)) {
+            var teamNames = userModel.userNames(team.users).join(", ");
+            var body = data.replace("{team}", teamNames);
+            var html = mail.createHtml(body);
+
             var to = team.users.join();
 
-            mail.send(to, "Caso: " + game.title, html, attachments).then(function(response) {
+            mail.send(to, "Caso: " + game.title, html, attachments).then(function (response) {
               resolve();
-            }).catch(function(error) {
+            }).catch(function (error) {
               reject(error);
             });
           }
@@ -54,18 +57,18 @@ function sendCase(game) {
       } else {
         reject('The game has no teams');
       }
-    }).catch(function(error) {
+    }).catch(function (error) {
       reject(error);
     });
   });
 }
 
-Game.prototype.get = function(criteria) {
+Game.prototype.get = function (criteria) {
   return database('games').find(criteria);
 }
 
-Game.prototype.start = function(id) {
-  return new Promise(function(resolve, reject) {
+Game.prototype.start = function (id) {
+  return new Promise(function (resolve, reject) {
 
     var game = Game.prototype.get.call(this, {
       "id": id
@@ -75,22 +78,19 @@ Game.prototype.start = function(id) {
       var users = userModel.all();
       var teams = teamModel.createTeams(users, game.numberOfTeams);
 
-      createTeams(id, teams).then(function() {
-        sendCase(game).then(function() {
+      createTeams(id, teams).then(function () {
+        sendCase(game).then(function () {
           resolve();
-        }).catch(function(error) {
+        }).catch(function (error) {
           console.log(error);
           reject(error);
         });
-        //var team = teamModel.findByUser("elgrau@gmail.com");
-
-      }).catch(function(error) {
+      }).catch(function (error) {
         reject(error);
       });
     } else {
       reject("game not found");
     }
-
 
   });
 }

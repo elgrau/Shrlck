@@ -5,23 +5,23 @@ var _ = require('lodash');
 
 function Team() {};
 
-Team.prototype.all = function() {
+Team.prototype.all = function () {
   return database.object.teams;
 }
 
-Team.prototype.get = function(teams, criteria) {
+Team.prototype.get = function (teams, criteria) {
   return teams.find(criteria);
 }
 
-Team.prototype.findByUser = function(teams, email) {
+Team.prototype.findByUser = function (teams, email) {
 
-  var team = teams.find(function(value) {
+  var team = teams.find(function (value) {
     return _.contains(value.users, email);
   });
   return team;
 }
 
-Team.prototype.createTeams = function(users, numberOfTeams) {
+Team.prototype.createTeams = function (users, numberOfTeams) {
   var teams = [];
 
   if (users.length > 0) {
@@ -32,7 +32,7 @@ Team.prototype.createTeams = function(users, numberOfTeams) {
     var rest = shuffledUsers.length % numberOfTeams;
 
     for (var i = 1; i <= numberOfTeams; i++) {
-      var usersTeam = _.remove(shuffledUsers, function(value, index) {
+      var usersTeam = _.remove(shuffledUsers, function (value, index) {
         return index < teamSize || (index == teamSize && i <= rest);
       });
 
