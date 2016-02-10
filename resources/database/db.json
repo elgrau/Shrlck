@@ -2,15 +2,22 @@
   "games": [
     {
       "id": "arkham2",
-      "title": "El rey Cometh",
+      "title": "kk",
       "numberOfTeams": 2,
       "startat": "",
+      "status": "started",
       "teams": [
         {
           "id": 1,
           "users": [
             "elgrau@gmail.com",
             "yagarsi@gmail.com"
+          ],
+          "clues": [
+            {
+              "clue": "A11",
+              "email": "elgrau@gmail.com"
+            }
           ]
         },
         {

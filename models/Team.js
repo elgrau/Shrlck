@@ -15,7 +15,8 @@ Team.prototype.get = function (teams, criteria) {
 
 Team.prototype.findByUser = function (teams, email) {
 
-  var team = teams.find(function (value) {
+  console.log(teams);
+  var team = _.find(teams, function (value) {
     return _.contains(value.users, email);
   });
   return team;
