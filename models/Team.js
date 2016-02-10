@@ -5,19 +5,23 @@ var _ = require('lodash');
 
 function Team() {};
 
-Team.prototype.get = function (criteria) {
-  return database('teams').find(criteria);
+Team.prototype.all = function() {
+  return database.object.teams;
 }
 
-Team.prototype.findByUser = function (email) {
+Team.prototype.get = function(teams, criteria) {
+  return teams.find(criteria);
+}
 
-  var team = database('teams').find(function (value) {
+Team.prototype.findByUser = function(teams, email) {
+
+  var team = teams.find(function(value) {
     return _.contains(value.users, email);
   });
   return team;
 }
 
-Team.prototype.createTeams = function (users, numberOfTeams) {
+Team.prototype.createTeams = function(users, numberOfTeams) {
   var teams = [];
 
   if (users.length > 0) {
@@ -28,7 +32,7 @@ Team.prototype.createTeams = function (users, numberOfTeams) {
     var rest = shuffledUsers.length % numberOfTeams;
 
     for (var i = 1; i <= numberOfTeams; i++) {
-      var usersTeam = _.remove(shuffledUsers, function (value, index) {
+      var usersTeam = _.remove(shuffledUsers, function(value, index) {
         return index < teamSize || (index == teamSize && i <= rest);
       });
 
@@ -39,14 +43,7 @@ Team.prototype.createTeams = function (users, numberOfTeams) {
       });
     }
   }
-
-  return new Promise(function (resolve, reject) {
-    database('teams').chain().assign(teams).value().then(function () {
-      resolve(teams);
-    }).catch(function (error) {
-      reject(error);
-    });
-  });
+  return teams;
 }
 
 var team = new Team();

@@ -42,7 +42,7 @@ router.get('/users/:id', api.auth.validateToken, ensureUnauthenticated, api.user
 router.put('/users/:id', api.auth.validateToken, ensureAuthenticated, api.users.update);
 router.delete('/users/:id', api.auth.validateToken, ensureAuthenticated, api.users.delete);
 
-router.get('/startgame', api.auth.validateToken, ensureUnauthenticated, api.game.start);
+router.get('/startgame/:id', api.auth.validateToken, ensureUnauthenticated, api.game.start);
 router.get('/clue/:id', api.auth.validateToken, ensureUnauthenticated, api.clue.get);
 
 //api error

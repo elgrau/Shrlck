@@ -1,4 +1,27 @@
 {
+  "games": [
+    {
+      "id": "arkham2",
+      "title": "El rey Cometh",
+      "numberOfTeams": 2,
+      "startat": "",
+      "teams": [
+        {
+          "id": 1,
+          "users": [
+            "elgrau@gmail.com",
+            "yagarsi@gmail.com"
+          ]
+        },
+        {
+          "id": 2,
+          "users": [
+            "grau.informatica@gmail.com"
+          ]
+        }
+      ]
+    }
+  ],
   "users": [
     {
       "email": "yagarsi@gmail.com",
@@ -15,21 +38,5 @@
       "username": "federico",
       "password": "1234"
     }
-  ],
-  "teams": [
-    {
-      "id": 1,
-      "users": [
-        "yagarsi@gmail.com",
-        "grau.informatica@gmail.com"
-      ]
-    },
-    {
-      "id": 2,
-      "users": [
-        "elgrau@gmail.com"
-      ]
-    }
-  ],
-  "teams.users": []
+  ]
 }
