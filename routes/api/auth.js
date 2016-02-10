@@ -13,18 +13,7 @@ var config = require('../../config');
 var modules = require('../../modules');
 var model = require('../../models');
 
-//var db = require('../../models');
-//var database = require('../../modules/database');
 var users = require('./users');
-
-var createToken = function (user) {
-  var expires = moment().add(30, 'days').valueOf();
-  return jwt.encode({
-    iss: user.identifier,
-    exp: expires,
-    parseSession: user._sessionToken
-  }, config.session.secret);
-}
 
 var auth = {
   validateToken: function (req, res, next) {
@@ -34,48 +23,9 @@ var auth = {
     } else {
       return next();
     }
-
-    //    var token = req.params["x-access-token"] || req.query["x-access-token"] || req.headers["x-access-token"];
-    //
-    //    if (token) {
-    //      database.get('tokens', token).then(function (response) {
-    //
-    //        if (!response) {
-    //          return next();
-    //        }
-    //
-    //        var decoded = jwt.decode(response.identifier, config.session.secret);
-    //
-    //        console.log(decoded);
-    //
-    //        if (decoded.exp <= Date.now()) {
-    //          response.destroy();
-    //          return res.status(400).json({
-    //            payload: {
-    //              error: ''
-    //            },
-    //            message: 'Invalid Request'
-    //          });
-    //        }
-    //
-    //        database.get('users', response.user).then(function (user) {
-    //          req.user = user;
-    //          return next();
-    //        }).catch(function () {
-    //          return next();
-    //        });
-    //      }).catch(function () {
-    //        return next();
-    //      });
-    //    } else {
-    //      next();
-    //    }
   },
 
   me: function (req, res) {
-    //check passport session for instagram twitter or local
-    // use session value
-
     return res.json({
       payload: req.user,
       message: "ping successful"
