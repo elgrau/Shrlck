@@ -1,7 +1,7 @@
 'use strict';
 
-var userModel = require('./user');
-var teamModel = require('./team');
+var userModel = require('./User');
+var teamModel = require('./Team');
 var database = require('../modules').database;
 var resourceLoader = require('../modules').resourceLoader;
 var mail = require('../modules').mail;
