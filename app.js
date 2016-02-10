@@ -8,7 +8,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
 var routes = require('./routes/index');
@@ -19,35 +18,13 @@ var applicationRoot = __dirname
 var path = require('path');
 var publicPath = path.join(applicationRoot, './public');
 
-// Strategies
-//var ParseStrategy = require('passport-parse');
-
-//parse
-//var parse = require('parse/node').Parse;
-//parse.initialize(config.parse.appId, config.parse.jsKey, config.parse.masterKey);
-
 var app = express();
-
-//var parseStrategy = new ParseStrategy({
-//  parseClient: parse
-//});
-//
-//// setting passport with the strategies
-//passport.use(parseStrategy);
-//
-//passport.serializeUser(function(user, done) {
-//  done(null, user);
-//});
-//
-//passport.deserializeUser(function(obj, done) {
-//  done(null, obj);
-//});
 
 //CORS middleware
 var allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Access-Token');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
   next();
 }
 
@@ -63,7 +40,9 @@ app.use(session({
   key: 'sid',
   cookie: {
     secure: false
-  }
+  },
+  resave: true,
+  saveUninitialized: true
 }));
 
 //app.use(passport.initialize());

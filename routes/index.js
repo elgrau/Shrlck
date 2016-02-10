@@ -2,9 +2,7 @@
  * Routes
  */
 var express = require('express');
-var passport = require('passport');
 var router = express.Router();
-var parse = require('parse/node').Parse;
 var api = require('./api/index');
 
 function ensureAuthenticated(req, res, next) {
