@@ -16,6 +16,7 @@
     "jsonfile": "^2.2.3",
     "jwt-simple": "x",
     "lodash": "^3.9.3",
+    "lowdb": "^0.12.2",
     "moment": "x",
     "morgan": "~1.0.0",
     "multer": "x",
