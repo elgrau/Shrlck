@@ -56,7 +56,6 @@ var auth = {
       "email": email,
       "password": password
     }).then(function (user) {
-      console.log('eeeee');
       var session = req.session;
       session.user = user;
 
@@ -92,6 +91,9 @@ var auth = {
     });
 
     if (user) {
+      var session = req.session;
+      session.user = user;
+
       return res.status(200).json({
         payload: {
           user: user

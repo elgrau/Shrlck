@@ -61,6 +61,13 @@ function getAttachments(image, path) {
   return attachments;
 }
 
+function sendEmail(to, subject, body, attachments) {
+  return new Promise(function (resolve, reject) {
+    resolve();
+  });
+  //return mail.send(to, "Pista: " + clue, html, attachments);
+}
+
 function sendCase(game) {
 
   return new Promise(function (resolve, reject) {
@@ -81,7 +88,7 @@ function sendCase(game) {
 
             var to = team.users.join();
 
-            mail.send(to, "Caso: " + game.title, html, attachments).then(function (response) {
+            sendEmail(to, "Caso: " + game.title, html, attachments).then(function () {
               resolve();
             }).catch(function (error) {
               reject(error);
@@ -100,28 +107,46 @@ function sendCase(game) {
 
 function sendClue(game, clue, team, email) {
   return new Promise(function (resolve, reject) {
-    var cluePath = 'game/' + game.id + '/clues';
-    resourceLoader.file(clue + '.html', cluePath).then(function (data) {
 
-      var attachments = getAttachments(clue + '.png', 'game/' + game.id + '/clues');
+    var clueFile = clue;
+    if (!existsClue(game, clue)) {
+      clueFile = 'default';
+    }
+
+    var cluePath = 'game/' + game.id + '/clues';
+    resourceLoader.file(clueFile + '.html', cluePath).then(function (data) {
+
+      var attachments = getAttachments(clueFile + '.png', 'game/' + game.id + '/clues');
       var html = mail.createHtml(data);
       var to = team.users.join();
 
-      addClueRequest(game, team, email, clue).then(function () {
-        resolve();
-        //        mail.send(to, "Pista: " + clue, html, attachments).then(function (response) {
-        //          resolve();
-        //        }).catch(function (error) {
-        //          reject(error);
-        //        });
+      sendEmail(to, "Caso: " + game.title, html, attachments).then(function () {
+        addClueRequest(game, team, email, clue).then(function () {
+          resolve();
+        }).catch(function (error) {
+          reject(error);
+        });
       }).catch(function (error) {
         reject(error);
-      })
-
+      });
     }).catch(function (error) {
       reject(error);
     });
   });
+}
+
+function existsClue(game, clue) {
+  var cluePath = 'game/' + game.id + '/clues';
+  return resourceLoader.contains(clue + '.html', cluePath);
+}
+
+function isValidClue(team, clue) {
+  if (!_.isUndefined(team.clues)) {
+    return !_.some(team.clues, {
+      "clue": clue
+    });
+  }
+  return true;
 }
 
 Game.prototype.get = function (criteria) {
@@ -172,12 +197,18 @@ Game.prototype.requestClue = function (email, clue) {
     if (game) {
       var team = findTeam(game, email);
       if (team) {
-        sendClue(game, clue, team, email).then(function () {
 
-          resolve();
-        }).catch(function (error) {
-          reject(error);
-        })
+        if (isValidClue(team, clue)) {
+          sendClue(game, clue, team, email).then(function () {
+            resolve();
+          }).catch(function (error) {
+            reject(error);
+          });
+        } else {
+          reject("The clue has been requested yet");
+        }
+      } else {
+        reject("The user not belongs to any team");
       }
     } else {
       reject("game not started");

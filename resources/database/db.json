@@ -1,49 +1,38 @@
 {
-  "games": [
-    {
-      "id": "arkham2",
-      "title": "kk",
-      "numberOfTeams": 2,
-      "startat": "",
-      "status": "started",
-      "teams": [
-        {
-          "id": 1,
-          "users": [
-            "elgrau@gmail.com",
-            "yagarsi@gmail.com"
-          ],
-          "clues": [
-            {
-              "clue": "A11",
-              "email": "elgrau@gmail.com"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "users": [
-            "grau.informatica@gmail.com"
-          ]
-        }
+  "games": [{
+    "id": "arkham2",
+    "title": "kk",
+    "numberOfTeams": 2,
+    "startat": "",
+    "status": "started",
+    "teams": [{
+      "id": 1,
+      "users": [
+        "elgrau@gmail.com",
+        "yagarsi@gmail.com"
+      ],
+      "clues": [{
+        "clue": "A11",
+        "email": "elgrau@gmail.com"
+      }]
+    }, {
+      "id": 2,
+      "users": [
+        "grau.informatica@gmail.com"
       ]
-    }
-  ],
-  "users": [
-    {
-      "email": "yagarsi@gmail.com",
-      "username": "yagarsi",
-      "password": "1234"
-    },
-    {
-      "email": "elgrau@gmail.com",
-      "username": "elgrau",
-      "password": "1234"
-    },
-    {
-      "email": "grau.informatica@gmail.com",
-      "username": "federico",
-      "password": "1234"
-    }
-  ]
+    }]
+  }],
+  "users": [{
+    "email": "yagarsi@gmail.com",
+    "username": "yagarsi",
+    "password": "1234"
+  }, {
+    "email": "elgrau@gmail.com",
+    "username": "elgrau",
+    "password": "1234"
+  }, {
+    "email": "grau.informatica@gmail.com",
+    "username": "federico",
+    "password": "1234"
+  }]
 }
