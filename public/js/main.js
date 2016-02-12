@@ -16,7 +16,7 @@
  * @namespace Utils
  */
 'use strict';
-require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'underscore', 'backbone', 'bootstrap', 'bootstrapmodalmanager', 'bootstrapmodal', 'bootstrapcolorpicker', 'bootstrapdatepicker', 'bootstrapdatepickercustom', 'bootstraptoggle', 'utils/otherUtils'], function() {
+require(['BackboneHATEOAS', 'backboneEpoxy', 'jquery', 'moment', 'underscore', 'backbone', 'bootstrap', 'bootstrapmodalmanager', 'bootstrapmodal', 'bootstrapdatepicker', 'md5', 'utils/otherUtils'], function () {
   window.versionHTML = $('head > meta[name="versionHTML"]').attr('content');
   if (/%%versionHTML%%/i.test(window.versionHTML)) {
     window.versionHTML = null;
@@ -33,15 +33,14 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
     cache: false
   });
 
-
   //Making toJSON Recursive
-  Backbone.Model.prototype.toJSON = function() {
+  Backbone.Model.prototype.toJSON = function () {
     if (this._isSerializing) {
       return this.id || this.cid;
     }
     this._isSerializing = true;
     var json = _.clone(this.attributes);
-    _.each(json, function(value, name) {
+    _.each(json, function (value, name) {
       _.isFunction((value || '').toJSON) && (json[name] = value.toJSON());
     });
     this._isSerializing = false;
@@ -53,19 +52,19 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
   Backbone.Epoxy.Model = Backbone.HAL.Model.extend(Backbone.Epoxy.Model.prototype);
 
   Backbone.Epoxy.binding.addHandler('complex', {
-    get: function($element, value, event) {
+    get: function ($element, value, event) {
       console.debug($element, value, event);
     },
-    set: function($element, value) {
+    set: function ($element, value) {
       console.debug($element, value);
     }
   });
 
   Backbone.Epoxy.binding.addHandler('keyText', {
-    init: function($element, value, bindings, context) {
+    init: function ($element, value, bindings, context) {
       this.targetAttribute = context.attr;
     },
-    get: function($element, value, event) {
+    get: function ($element, value, event) {
       var obj = {};
       if ($element.is('[class*="select2"]')) {
         //Select2
@@ -92,7 +91,7 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
       }
       return obj;
     },
-    set: function($element, value) {
+    set: function ($element, value) {
       if (value && _.isObject(value)) {
         if ($element.is('[class*="select2"]')) {
           $element.select2('val', value.key);
@@ -104,10 +103,10 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
   });
 
   Backbone.Epoxy.binding.addHandler('keyTextList', {
-    init: function($element, value, bindings, context) {
+    init: function ($element, value, bindings, context) {
       this.targetAttribute = context.attr;
     },
-    get: function($element, value, event) {
+    get: function ($element, value, event) {
       var obj = {};
       if ($element.get(0).localName === 'input') {
         //Select2-Input
@@ -116,7 +115,7 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
       } else if ($element.is('[class*="select2"]')) {
         //Select2
         var select2Data = $element.select2('data');
-        obj[this.targetAttribute] = _.map(select2Data, function(val) {
+        obj[this.targetAttribute] = _.map(select2Data, function (val) {
           return {
             key: val.id,
             text: val.text
@@ -124,7 +123,7 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
         });
       } else {
         var values = $element.val();
-        obj[this.targetAttribute] = _.map(values, function(val) {
+        obj[this.targetAttribute] = _.map(values, function (val) {
           return {
             key: val,
             text: $element.find('option[value="' + val + '"]').text()
@@ -133,7 +132,7 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
       }
       return obj;
     },
-    set: function($element, value) {
+    set: function ($element, value) {
       if (value && _.isArray(value)) {
         var keysList = _.pluck(value, 'key');
         if ($element.get(0).localName === 'input') {
@@ -147,8 +146,8 @@ require(['BackboneHATEOAS', 'backboneEpoxy', 'less', 'jquery', 'moment', 'unders
     }
   });
 
-  require(['views/elements/forms/form'], function() {
-    require(['js/router'], function(Router) {
+  require(['views/elements/forms/form'], function () {
+    require(['js/router'], function (Router) {
       Router.initialize();
     });
   });

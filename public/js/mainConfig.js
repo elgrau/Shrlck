@@ -30,12 +30,9 @@ require.config({
         bootstrap: 'vendor/bootstrap/bootstrap',
         bootstrapmodalmanager: 'vendor/bootstrap/bootstrap-modalmanager',
         bootstrapmodal: 'vendor/bootstrap/bootstrap-modal',
-        bootstrapcolorpicker: 'vendor/bootstrap/bootstrap-colorpicker',
         bootstrapdatepicker: 'vendor/bootstrap/bootstrap-datepicker',
-        bootstrapdatepickercustom: 'vendor/bootstrap/bootstrap-datepicker-customModifications',
-        bootstraptoggle: 'vendor/bootstrap/bootstrap2-toggle.min',
 
-        less: 'vendor/less/less.min',
+        md5: 'vendor/md5/md5',
 
         atmosphere: 'vendor/atmosphere/atmosphere'
     },
@@ -73,16 +70,7 @@ require.config({
         'bootstrapmodal': {
             deps: ['bootstrapmodalmanager']
         },
-        'bootstrapcolorpicker': {
-            deps: ['bootstrap']
-        },
         'bootstrapdatepicker': {
-            deps: ['bootstrap']
-        },
-        'bootstrapdatepickercustom': {
-            deps: ['bootstrapdatepicker']
-        },
-        'bootstraptoggle': {
             deps: ['bootstrap']
         }
     },
