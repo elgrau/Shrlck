@@ -1,0 +1,10 @@
+{
+  "games": [{
+    "id": "arkham2",
+    "title": "El rey Cometh",
+    "numberOfTeams": 2,
+    "startat": "",
+    "status": "not started"
+  }],
+  "users": []
+}
