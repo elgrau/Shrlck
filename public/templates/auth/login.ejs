@@ -1,24 +1,19 @@
 <div class="login">
-	<form class="form-horizontal">
-		<% /* username */ %>
-		<forms-input
-		label="Email"
-		name="email"
-		id="email"
-		required="true"
-		></forms-input>
+	<!-- Header -->
+	<header id="header">
+		<h1>El rey Cometh</h1>
+		<p>Viernes, 19 de Julio de 1929</p>
+	</header>
 
-		<% /* password */ %>
-		<forms-input
-		label="Password"
-		type="password"
-		name="password"
-		id="password"
-		required="true"
-		></forms-input>
+	<!-- Signup Form -->
+	<form id="signup-form" method="post" action="#">
+		<input type="email" name="email" id="email" placeholder="Email" />
+		<input type="password" name="password" id="password" placeholder="Contraseña" />
+		<input type="submit" action="login" value="Acceso" />
 
-		<forms-button label="Acceder" classes="btn btn-primary" icon="fa fa-pencil-square-o" action="login"></forms-button>
-
-		<a href="#signup">Nuevo usuario</a>
 	</form>
-</div>	
+	<div class="message"></div>
+	<div>
+		<a href="#signup">Crear cuenta</a>
+	</div>
+</div>

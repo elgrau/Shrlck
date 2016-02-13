@@ -115,31 +115,6 @@ define([], function() {
     },
     loggedOut: function() {
       this.logged = false;
-    },
-    hasType: function(type) {
-      return type === this.get('userType').key.toUpperCase();
-    },
-    /**
-     * Checks whether the user has a specific role.
-     * @return {Array} roles
-     */
-    hasRole: function(role) {
-      return role === this.get('roleType').key.toUpperCase();
-    },
-    /**
-     * Checks if an user is Admin
-     */
-    isAdmin: function() {
-      return this.hasType(this.constructor.types.ADMIN);
-    }
-  }, {
-    roles: {
-      'ADMINISTRATOR': 'ROLE_ADMINISTRATOR',
-      'USER': 'ROLE_USER'
-    },
-    types: {
-      'ADMIN': 'ADMIN',
-      'USER': 'USER'
     }
   });
   return User;

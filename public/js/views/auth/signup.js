@@ -18,6 +18,7 @@ define(['jquery', 'underscore', 'backbone', 'models/users/user', 'text!templates
       e.preventDefault();
 
       var data = _.object(_.map($('form').serializeArray(), _.values));
+      data.password = CryptoJS.MD5(data.password).toString();
 
       $.ajax({
         type: 'POST',
@@ -25,20 +26,20 @@ define(['jquery', 'underscore', 'backbone', 'models/users/user', 'text!templates
         dataType: 'json',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         data: data,
-        beforeSend: function() {
-          $('body').trigger('showNotificationModal', ['generic', 'Logging', "Validando usuario..."]);
-        },
         success: function(response) {
-          console.log('Registered succesfuly.');
           window.user = new UserModel(_.extend({}, response.payload.user));
 
           appRouter.navigate('dashBoard', true);
         },
         error: function(err) {
-          console.log('Logged error. ' + err);
-          $('body').trigger('hideNotificationModal', 'Logging');
-          if (!(err && err.responseJSON && err.responseJSON.message)) {
-            //$('body').trigger('showNotificationModal', ['Warning', 'error', literals.loginError]);
+          if (err && err.responseJSON && err.responseJSON.message) {
+            var message = $('.message');
+            message.html(err.responseJSON.message);
+            message.addClass('visible');
+
+            window.setTimeout(function() {
+              message.removeClass('visible');
+            }, 5000);
           }
         }
       });
