@@ -15,8 +15,15 @@ var model = require('../../models');
 
 var users = require('./users');
 
+function isGameStarted() {
+  var game = model.game.get({
+    "status": 'started'
+  });
+  return game !== undefined;
+}
+
 var auth = {
-  validateToken: function (req, res, next) {
+  validateToken: function(req, res, next) {
     if (req.session.user) {
       req.user = req.session.user;
       return next();
@@ -25,7 +32,7 @@ var auth = {
     }
   },
 
-  me: function (req, res) {
+  me: function(req, res) {
     return res.json({
       payload: req.user,
       message: "ping successful"
@@ -33,7 +40,7 @@ var auth = {
   },
 
   // registering a user
-  signup: function (req, res) {
+  signup: function(req, res) {
     var username = (req.body.username !== undefined) ? req.body.username : false;
     var email = (req.body.email !== undefined) ? req.body.email : false;
     var password = (req.body.password !== undefined) ? req.body.password : false;
@@ -41,40 +48,58 @@ var auth = {
     if (!username || !email || !password) {
       //send bad request
       return res.status(400).json({
-        error: "Missing fields",
-        message: "SignUp not completed"
+        error: "",
+        message: "Debes rellenar todos los campos"
       });
     } else if (!validator.isEmail(email)) {
       return res.status(400).json({
         error: "Email not valid",
-        message: "SignUp not completed"
+        message: "Email no válido"
+      });
+    }
+    var userFound = model.user.get({
+      "email": email
+    });
+    if (userFound) {
+      return res.status(400).json({
+        error: "",
+        message: "El usuario ya existe"
+      });
+    } else {
+      model.user.save({
+        "username": username,
+        "email": email,
+        "password": password
+      }).then(function(user) {
+        if (isGameStarted()) {
+          var session = req.session;
+          session.user = user;
+
+          return res.status(200).json({
+            payload: {
+              user: user
+            },
+            message: "Registration successfull"
+          });
+        } else {
+          return res.status(400).json({
+            payload: {
+              user: user
+            },
+            message: "Usuario registrado. Podrás acceder al juego cuando haya comenzado"
+          });
+        }
+      }).catch(function(error) {
+        return res.status(400).json({
+          error: "",
+          message: "Se ha producido un error al registrar el usuario"
+        });
       });
     }
 
-    model.user.save({
-      "username": username,
-      "email": email,
-      "password": password
-    }).then(function (user) {
-      var session = req.session;
-      session.user = user;
-
-      return res.status(200).json({
-        payload: {
-          user: user
-        },
-        message: "Registration successfull"
-      });
-    }).catch(function (error) {
-      return res.status(400).json({
-        error: "" + error,
-        message: "User cannot be registered"
-      });
-    });
-
   },
   // login a user
-  login: function (req, res) {
+  login: function(req, res) {
     var email = (req.body.email !== undefined) ? req.body.email : false;
     var password = (req.body.password !== undefined) ? req.body.password : false;
 
@@ -82,38 +107,45 @@ var auth = {
       //send bad request
       return res.status(400).json({
         payload: {},
-        message: "Invalid email or password"
+        message: "Email o password no válidos"
       });
     }
-
     var user = model.user.get({
       "email": email
     });
 
-    if (user) {
-      var session = req.session;
-      session.user = user;
+    if (user && user.password === password) {
 
-      return res.status(200).json({
-        payload: {
-          user: user
-        },
-        message: "Authentication successfull"
-      });
+      if (isGameStarted()) {
+        var session = req.session;
+        session.user = user;
+
+        return res.status(200).json({
+          payload: {
+            user: user
+          },
+          message: "Authentication successfull"
+        });
+      } else {
+        return res.status(400).json({
+          payload: {},
+          message: "El juego todavía no ha comenzado"
+        });
+      }
     } else {
       return res.status(400).json({
         payload: {},
-        message: "Authentication failed"
+        message: "Acceso no autorizado"
       });
     }
   },
 
-  logout: function (req, res) {
+  logout: function(req, res) {
     if (req.session.user) {
       delete req.session["user"];
     }
 
-    req.session.destroy(function (err) {
+    req.session.destroy(function(err) {
 
       return res.status(200).json({
         payload: {},

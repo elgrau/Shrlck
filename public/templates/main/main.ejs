@@ -1,14 +1,8 @@
 <div class="game">
-	<form class="form-horizontal">
-		<forms-input
-		label="Pista"
-		name="clue"
-		id="clue"
-		required="true"
-		></forms-input>
-
-		<forms-button label="Solicitar pista" classes="btn btn-primary" icon="fa fa-pencil-square-o" action="requestClue"></forms-button>
+	<form id="signup-form" method="post" action="#">
+		<input type="text" name="clue" id="clue" placeholder="Lugar" />
+		<input type="submit" action="requestClue" value="Investigar" />
 	</form>
-
-	<a href="#logout">Logout</a>
+	<div class="message"></div>
+	<div><a href="#logout">Logout</a></div>
 </div>	

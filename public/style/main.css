@@ -344,7 +344,8 @@
 		-webkit-transition: border-bottom-color 0.2s ease, color 0.2s ease;
 		-ms-transition: border-bottom-color 0.2s ease, color 0.2s ease;
 		transition: border-bottom-color 0.2s ease, color 0.2s ease;
-		border-bottom: dotted 1px rgba(255, 255, 255, 0.25);
+		/*border-bottom: dotted 1px rgba(255, 255, 255, 0.25);*/
+		border-bottom: rgba(255, 255, 255, 0.25);
 		color: #1cb495;
 		text-decoration: none;
 	}
@@ -1011,11 +1012,11 @@
 
 	#header h1 {
 		font-size: 3.25em;
-		margin: 0 0 0.55em 0;
+		margin: 0 0 0.15em 0;
 	}
 
 	#header p {
-		font-size: 1.35em;
+		font-size: 1.0em;
 		line-height: 1.65em;
 	}
 
@@ -1045,12 +1046,75 @@
 
 /* Signup Form */
 
+	.message {
+		text-decoration: none;
+		-moz-transition: opacity 0.2s ease-in-out, -moz-transform 0.2s ease-in-out;
+		-webkit-transition: opacity 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
+		-ms-transition: opacity 0.2s ease-in-out, -ms-transform 0.2s ease-in-out;
+		transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+		-moz-transform: scale(1.05);
+		-webkit-transform: scale(1.05);
+		-ms-transform: scale(1.05);
+		transform: scale(1.05);
+		/*height: 2.75em;*/
+		line-height: 2.75em;
+		opacity: 0;
+
+		margin: 0 0 1.5em 0;	
+		bottom: -1.5em;
+		font-size: 0.9em;
+		height: 1em;
+		left: 0;
+		/*line-height: inherit;*/
+		margin-top: 0;
+	}
+
+		.message:before {
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-font-smoothing: antialiased;
+			font-family: FontAwesome;
+			font-style: normal;
+			font-weight: normal;
+			text-transform: none !important;
+		}
+
+		.message:before {
+			margin-right: 0.5em;
+		}
+
+		.message.visible {
+			-moz-transform: scale(1);
+			-webkit-transform: scale(1);
+			-ms-transform: scale(1);
+			transform: scale(1);
+			opacity: 1;
+		}
+
+		.message.success {
+			color: #1cb495;
+		}
+
+			.message.success:before {
+				content: '\f00c';
+			}
+
+		.message.failure {
+			color: #ff2361;
+		}
+
+			.message.failure:before {
+				content: '\f119';
+			}
+
+
+
 	#signup-form {
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
 		position: relative;
+		margin: 0 0 0.5em 0;
 	}
 
 		#signup-form input[type="text"],

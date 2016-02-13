@@ -10,7 +10,7 @@ var _ = require('lodash');
 function Game() {};
 
 function findTeam(game, email) {
-  var team = _.find(game.teams, function (value) {
+  var team = _.find(game.teams, function(value) {
     return _.contains(value.users, email);
   });
   return team;
@@ -62,19 +62,19 @@ function getAttachments(image, path) {
 }
 
 function sendEmail(to, subject, body, attachments) {
-  return new Promise(function (resolve, reject) {
-    resolve();
-  });
-  //return mail.send(to, "Pista: " + clue, html, attachments);
+  //return new Promise(function(resolve, reject) {
+  //  resolve();
+  //});
+  return mail.send(to, subject, body, attachments);
 }
 
 function sendCase(game) {
 
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
 
     if (!_.isEmpty(game.teams)) {
       var gamePath = 'game/' + game.id;
-      resourceLoader.file('case.html', gamePath).then(function (data) {
+      resourceLoader.file('case.html', gamePath).then(function(data) {
 
         var attachments = getAttachments('case.png', 'game/' + game.id);
 
@@ -88,25 +88,25 @@ function sendCase(game) {
 
             var to = team.users.join();
 
-            sendEmail(to, "Caso: " + game.title, html, attachments).then(function () {
+            sendEmail(to, "Caso: " + game.title, html, attachments).then(function() {
               resolve();
-            }).catch(function (error) {
+            }).catch(function(error) {
               reject(error);
             });
           }
         }
-      }).catch(function (error) {
+      }).catch(function(error) {
         reject(error);
       });
     } else {
-      reject('The game has no teams');
+      reject('El juego no tiene equipos');
     }
 
   });
 }
 
 function sendClue(game, clue, team, email) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
 
     var clueFile = clue;
     if (!existsClue(game, clue)) {
@@ -114,22 +114,22 @@ function sendClue(game, clue, team, email) {
     }
 
     var cluePath = 'game/' + game.id + '/clues';
-    resourceLoader.file(clueFile + '.html', cluePath).then(function (data) {
+    resourceLoader.file(clueFile + '.html', cluePath).then(function(data) {
 
       var attachments = getAttachments(clueFile + '.png', 'game/' + game.id + '/clues');
-      var html = mail.createHtml(data);
+      var html = mail.createHtml(data.replace("{clue}", clue));
       var to = team.users.join();
 
-      sendEmail(to, "Caso: " + game.title, html, attachments).then(function () {
-        addClueRequest(game, team, email, clue).then(function () {
+      sendEmail(to, "Caso: " + game.title, html, attachments).then(function() {
+        addClueRequest(game, team, email, clue).then(function() {
           resolve();
-        }).catch(function (error) {
+        }).catch(function(error) {
           reject(error);
         });
-      }).catch(function (error) {
+      }).catch(function(error) {
         reject(error);
       });
-    }).catch(function (error) {
+    }).catch(function(error) {
       reject(error);
     });
   });
@@ -149,12 +149,12 @@ function isValidClue(team, clue) {
   return true;
 }
 
-Game.prototype.get = function (criteria) {
+Game.prototype.get = function(criteria) {
   return database('games').find(criteria);
 }
 
-Game.prototype.start = function (id) {
-  return new Promise(function (resolve, reject) {
+Game.prototype.start = function(id) {
+  return new Promise(function(resolve, reject) {
 
     var game = Game.prototype.get.call(this, {
       "id": id
@@ -165,31 +165,31 @@ Game.prototype.start = function (id) {
         var users = userModel.all();
         var teams = teamModel.createTeams(users, game.numberOfTeams);
 
-        saveTeams(id, teams).then(function () {
-          sendCase(game).then(function () {
+        saveTeams(id, teams).then(function() {
+          sendCase(game).then(function() {
 
-            setStatus(id, 'started').then(function () {
+            setStatus(id, 'started').then(function() {
               resolve();
-            }).catch(function (error) {
+            }).catch(function(error) {
               reject(error);
             });
-          }).catch(function (error) {
+          }).catch(function(error) {
             reject(error);
           });
-        }).catch(function (error) {
+        }).catch(function(error) {
           reject(error);
         });
       } else {
-        reject("game already started");
+        reject("El juego ya se encuentra iniciado");
       }
     } else {
-      reject("game not found");
+      reject("Juego no encontrado");
     }
   });
 }
 
-Game.prototype.requestClue = function (email, clue) {
-  return new Promise(function (resolve, reject) {
+Game.prototype.requestClue = function(email, clue) {
+  return new Promise(function(resolve, reject) {
 
     var game = Game.prototype.get.call(this, {
       "status": 'started'
@@ -198,20 +198,21 @@ Game.prototype.requestClue = function (email, clue) {
       var team = findTeam(game, email);
       if (team) {
 
-        if (isValidClue(team, clue)) {
-          sendClue(game, clue, team, email).then(function () {
+        var clueCode = clue.toUpperCase();
+        if (isValidClue(team, clueCode)) {
+          sendClue(game, clueCode, team, email).then(function() {
             resolve();
-          }).catch(function (error) {
+          }).catch(function(error) {
             reject(error);
           });
         } else {
-          reject("The clue has been requested yet");
+          reject("Ya has investigado ese lugar");
         }
       } else {
-        reject("The user not belongs to any team");
+        reject("El usuario no pertenece a ningún equipo");
       }
     } else {
-      reject("game not started");
+      reject("El juego no ha comenzado todavía");
     }
   });
 }
