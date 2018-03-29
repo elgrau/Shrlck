@@ -1,3 +1,4 @@
 node_modules/
 uploads/
 resources/database/db.json
+.vscode/

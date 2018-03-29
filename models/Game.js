@@ -16,7 +16,7 @@ function findTeam(game, email) {
   return team;
 }
 
-function saveTeams(gameId, teams) {
+function saveTeams(gameId, teams) { 
   return database('games').chain().find({
     "id": gameId
   }).assign({
@@ -160,12 +160,14 @@ Game.prototype.start = function(id) {
       "id": id
     });
 
+    
     if (game) {
       if (game.status === 'not started') {
         var users = userModel.all();
         var teams = teamModel.createTeams(users, game.numberOfTeams);
 
-        saveTeams(id, teams).then(function() {
+        saveTeams(id, teams).then(function() {          
+          
           sendCase(game).then(function() {
 
             setStatus(id, 'started').then(function() {
@@ -177,6 +179,7 @@ Game.prototype.start = function(id) {
             reject(error);
           });
         }).catch(function(error) {
+          console.log('hello');
           reject(error);
         });
       } else {
